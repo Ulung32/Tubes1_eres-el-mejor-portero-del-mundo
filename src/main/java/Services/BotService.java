@@ -10,6 +10,7 @@ public class BotService {
     private GameObject bot;
     private PlayerAction playerAction;
     private GameState gameState;
+    private GameObject target;
 
     public BotService() {
         this.playerAction = new PlayerAction();
@@ -39,14 +40,31 @@ public class BotService {
 
         if (!gameState.getGameObjects().isEmpty()) {
             var foodList = gameState.getGameObjects()
-                    .stream().filter(item -> item.getGameObjectType() == ObjectTypes.FOOD)
+                    .stream().filter(item -> (item.getGameObjectType() == ObjectTypes.FOOD || item.getGameObjectType() == ObjectTypes.SUPERFOOD))
                     .sorted(Comparator
                             .comparing(item -> getDistanceBetween(bot, item)))
                     .collect(Collectors.toList());
+            GameObject nearestFood = foodList.get(0);
+            target = nearestFood;
+            var playerList = gameState.getGameObjects()
+                    .stream().filter(item -> item.getGameObjectType() == ObjectTypes.PLAYER)
+                    .sorted((Comparator.comparing(GameObject::getSize))).collect(Collectors.toList());
+            GameObject nearestOpponent = playerList.get(0);
+            if (nearestOpponent.getSize() >= bot.getSize()) {
 
-            playerAction.heading = getHeadingBetween(foodList.get(0));
+            }
+            GameObject nearestSmallerOpponent = null;
+            for (int i = 0; i < playerList.size(); i++) {
+                if ((playerList.get(i)).getSize() < bot.getSize()) {
+                    nearestSmallerOpponent = playerList.get(i);
+                    break;
+                }
+            }
+            if (nearestSmallerOpponent != null) {
+                target = nearestSmallerOpponent;
+            }
+
         }
-
         this.playerAction = playerAction;
     }
 
@@ -68,6 +86,10 @@ public class BotService {
         var triangleX = Math.abs(object1.getPosition().x - object2.getPosition().x);
         var triangleY = Math.abs(object1.getPosition().y - object2.getPosition().y);
         return Math.sqrt(triangleX * triangleX + triangleY * triangleY);
+    }
+
+    public boolean nearEnd() {
+        return Math.sqrt(bot.position.x * bot.position.x + bot.position.y * bot.position.y) == (gameState.world.getRadius() - 10);
     }
 
     private int getHeadingBetween(GameObject otherObject) {
