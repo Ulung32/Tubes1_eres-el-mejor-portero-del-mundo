@@ -4,6 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="3996d4f3-dbf7-4be7-9f7a-60b5417e221a" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
@@ -84,11 +85,32 @@
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tubes1_eres-el-mejor-portero-del-mundo.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Tubes1_eres-el-mejor-portero-del-mundo.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" />
+=======
+    <list default="true" id="3996d4f3-dbf7-4be7-9f7a-60b5417e221a" name="Changes" comment="Build: learn to build jar file">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Enums/ObjectTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Enums/ObjectTypes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Enums/PlayerActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Enums/PlayerActions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Models/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Models/GameObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Services/BotService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Services/BotService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/JavaBot.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/JavaBot.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Enums/ObjectTypes.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Enums/ObjectTypes.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Enums/PlayerActions.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Enums/PlayerActions.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Services/BotService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Services/BotService.class" afterDir="false" />
+>>>>>>> 3641d24b520e361e9e8afcc0cda8f0a406e7865a
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -177,6 +199,14 @@
       <option name="presentableId" value="Default" />
       <updated>1675603693838</updated>
     </task>
+    <task id="LOCAL-00001" summary="Build: learn to build jar file">
+      <created>1675606626063</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1675606626063</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -189,5 +219,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Build: learn to build jar file" />
+    <option name="LAST_COMMIT_MESSAGE" value="Build: learn to build jar file" />
   </component>
 </project>
