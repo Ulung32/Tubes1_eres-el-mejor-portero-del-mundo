@@ -4,18 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3996d4f3-dbf7-4be7-9f7a-60b5417e221a" name="Changes" comment="Build: learn to build jar file">
+    <list default="true" id="3996d4f3-dbf7-4be7-9f7a-60b5417e221a" name="Changes" comment="Edit gameobject.java">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Services/UtilityFunctions.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Enums/ObjectTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Enums/ObjectTypes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Enums/PlayerActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Enums/PlayerActions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Models/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Models/GameObject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Services/BotService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Services/BotService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/JavaBot.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/JavaBot.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Enums/ObjectTypes.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Enums/ObjectTypes.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Enums/PlayerActions.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Enums/PlayerActions.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Services/BotService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Services/BotService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,7 +105,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675606626063</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Edit gameobject.java">
+      <created>1675829689219</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1675829689219</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -129,6 +128,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Build: learn to build jar file" />
-    <option name="LAST_COMMIT_MESSAGE" value="Build: learn to build jar file" />
+    <MESSAGE value="Edit gameobject.java" />
+    <option name="LAST_COMMIT_MESSAGE" value="Edit gameobject.java" />
   </component>
 </project>

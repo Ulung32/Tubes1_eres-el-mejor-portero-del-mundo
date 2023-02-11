@@ -11,6 +11,7 @@ public class BotService {
     private PlayerAction playerAction;
     private GameState gameState;
     private GameObject target;
+    private int searchRadius = 200;
 
     public BotService() {
         this.playerAction = new PlayerAction();
@@ -52,16 +53,6 @@ public class BotService {
             GameObject nearestOpponent = playerList.get(0);
             if (nearestOpponent.getSize() >= bot.getSize()) {
 
-            }
-            GameObject nearestSmallerOpponent = null;
-            for (int i = 0; i < playerList.size(); i++) {
-                if ((playerList.get(i)).getSize() < bot.getSize()) {
-                    nearestSmallerOpponent = playerList.get(i);
-                    break;
-                }
-            }
-            if (nearestSmallerOpponent != null) {
-                target = nearestSmallerOpponent;
             }
 
         }
