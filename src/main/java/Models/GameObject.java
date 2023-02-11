@@ -62,6 +62,7 @@ public class GameObject {
     this.position = position;
   }
 
+
   public ObjectTypes getGameObjectType() {
     return gameObjectType;
   }
