@@ -4,18 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3996d4f3-dbf7-4be7-9f7a-60b5417e221a" name="Changes" comment="Build: learn to build jar file">
+    <list default="true" id="3996d4f3-dbf7-4be7-9f7a-60b5417e221a" name="Changes" comment="resolve conflict">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Enums/ObjectTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Enums/ObjectTypes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Enums/PlayerActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Enums/PlayerActions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Models/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Models/GameObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Services/BotService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Services/BotService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/JavaBot.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/JavaBot.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Enums/ObjectTypes.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Enums/ObjectTypes.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Enums/PlayerActions.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Enums/PlayerActions.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Services/BotService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Services/BotService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,22 +38,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/ITB/Semester 3/Aljabar Liniear dan Geometri/Algeo01_21119&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15039062&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.50978136&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "C:/Users/ACER/OneDrive/Dokumen/Kuliah!!!!/STIMA/Tubes 1/starter-pack",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15039062",
+    "project.structure.side.proportion": "0.50978136",
+    "settings.editor.selected.configurable": "MavenSettings"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration default="true" type="AZURE_FUNCTION_SUPPORT" factoryName="Run Functions">
       <option name="appName" />
@@ -129,6 +119,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Build: learn to build jar file" />
-    <option name="LAST_COMMIT_MESSAGE" value="Build: learn to build jar file" />
+    <MESSAGE value="resolve commit" />
+    <MESSAGE value="resolve conflict" />
+    <option name="LAST_COMMIT_MESSAGE" value="resolve conflict" />
   </component>
 </project>
