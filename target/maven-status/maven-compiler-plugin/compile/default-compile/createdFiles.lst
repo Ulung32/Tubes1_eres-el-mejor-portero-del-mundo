@@ -8,3 +8,4 @@ Models\PlayerAction.class
 Models\GameObject.class
 Models\Position.class
 Models\World.class
+Services\UtilityFunctions.class

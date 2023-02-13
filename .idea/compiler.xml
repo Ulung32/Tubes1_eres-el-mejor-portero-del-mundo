@@ -6,11 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="TugasBesar1" />
+        <module name="JavaBot" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="TugasBesar1" target="11" />
-    </bytecodeTargetLevel>
   </component>
 </project>

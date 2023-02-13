@@ -10,8 +10,6 @@ public class BotService {
     private GameObject bot;
     private PlayerAction playerAction;
     private GameState gameState;
-    private GameObject target;
-    private int searchRadius = 200;
 
     public BotService() {
         this.playerAction = new PlayerAction();
@@ -41,21 +39,74 @@ public class BotService {
 
         if (!gameState.getGameObjects().isEmpty()) {
             var foodList = gameState.getGameObjects()
-                    .stream().filter(item -> (item.getGameObjectType() == ObjectTypes.FOOD || item.getGameObjectType() == ObjectTypes.SUPERFOOD))
-                    .sorted(Comparator
-                            .comparing(item -> getDistanceBetween(bot, item)))
+                .stream().filter(item -> item.getGameObjectType() == ObjectTypes.FOOD || item.getGameObjectType() == ObjectTypes.SUPERFOOD)
+                .sorted(Comparator.comparing(item -> UtilityFunctions.getTrueDistance(bot, item)))
+                .collect(Collectors.toList());
+            var smallerPlayer = gameState.getPlayerGameObjects()
+                    .stream().filter(item -> item.getSize() < bot.getSize())
+                    .sorted(Comparator.comparing(item -> UtilityFunctions.getTrueDistance(bot, item)))
                     .collect(Collectors.toList());
-            GameObject nearestFood = foodList.get(0);
-            target = nearestFood;
-            var playerList = gameState.getGameObjects()
-                    .stream().filter(item -> item.getGameObjectType() == ObjectTypes.PLAYER)
-                    .sorted((Comparator.comparing(GameObject::getSize))).collect(Collectors.toList());
-            GameObject nearestOpponent = playerList.get(0);
-            if (nearestOpponent.getSize() >= bot.getSize()) {
+            var biggerPlayer = gameState.getPlayerGameObjects()
+                    .stream().filter(item -> item.getSize() > bot.getSize());
+            var obstacleList = gameState.getGameObjects()
+                    .stream().filter(item -> item.getGameObjectType() == ObjectTypes.ASTEROIDFIELD);
+            var objectsToAvoid = Stream.concat(biggerPlayer, obstacleList)
+                    .sorted(Comparator.comparing(item -> UtilityFunctions.getTrueDistance(bot, item)))
+                    .collect(Collectors.toList());
 
+            if (UtilityFunctions.nearEdge(bot, gameState)) {
+                int enemiesNear = UtilityFunctions.countEnemyNear(bot, objectsToAvoid), resultantHeading, sidingHeading;
+                sidingHeading = UtilityFunctions.getHeadingToCenterPoint(bot, gameState) % 360;
+                if (enemiesNear > 0) {
+                    resultantHeading = UtilityFunctions.findResultant(bot, objectsToAvoid, enemiesNear);
+                    resultantHeading = ((resultantHeading + sidingHeading) / 2) % 360;
+                    playerAction.heading = resultantHeading;
+                    if (UtilityFunctions.getTrueDistance(objectsToAvoid.get(0), bot) < 50 && bot.getSize() > 100) {
+                        playerAction.action = PlayerActions.FORWARD;
+                    } else if (bot.getSize() < 100) {
+                        playerAction.action = PlayerActions.FORWARD;
+                    } else {
+                        playerAction.action = PlayerActions.FORWARD;
+                    }
+                } else {
+                    resultantHeading = sidingHeading % 360;
+                    playerAction.heading = resultantHeading;
+                    playerAction.action = PlayerActions.FORWARD;
+                }
+            } else if (objectsToAvoid.size() > 0 && UtilityFunctions.getTrueDistance(objectsToAvoid.get(0), bot) < 50) {
+                int enemiesNear = UtilityFunctions.countEnemyNear(bot, objectsToAvoid), resultantHeading;
+                resultantHeading = UtilityFunctions.findResultant(bot, objectsToAvoid, enemiesNear);
+                playerAction.heading = resultantHeading;
+                if (UtilityFunctions.getTrueDistance(objectsToAvoid.get(0), bot) < 50 && bot.getSize() > 100) {
+                    playerAction.action = PlayerActions.FORWARD;
+                } else {
+                    playerAction.action = PlayerActions.FORWARD;
+                }
+            } else {
+                // GameObject target = null;
+                // int targetDensity = 0;
+                // for (int i = 0; i < edibleList.size(); i++) {
+                //     GameObject currentTarget = edibleList.get(i);
+                //     if (UtilityFunctions.getDensity(currentTarget, edibleList) > targetDensity) {
+                //         if (UtilityFunctions.isSave(bot, objectsToAvoid, currentTarget)) {
+                //             targetDensity = UtilityFunctions.getDensity(currentTarget, edibleList) / ((int) UtilityFunctions.getTrueDistance(bot, currentTarget)+1);
+                //             target = currentTarget;
+                //         }
+                //     }
+                // }
+                // playerAction.heading = getHeadingBetween(target);
+                // playerAction.action = PlayerActions.FORWARD;
+                GameObject target;
+                if (smallerPlayer.size() > 0) {
+                    target = smallerPlayer.get(0);
+                } else {
+                    target = foodList.get(0);
+                }
+                playerAction.heading = getHeadingBetween(target);
+                playerAction.action = PlayerActions.FORWARD;
             }
-
         }
+
         this.playerAction = playerAction;
     }
 
@@ -77,10 +128,6 @@ public class BotService {
         var triangleX = Math.abs(object1.getPosition().x - object2.getPosition().x);
         var triangleY = Math.abs(object1.getPosition().y - object2.getPosition().y);
         return Math.sqrt(triangleX * triangleX + triangleY * triangleY);
-    }
-
-    public boolean nearEnd() {
-        return Math.sqrt(bot.position.x * bot.position.x + bot.position.y * bot.position.y) == (gameState.world.getRadius() - 10);
     }
 
     private int getHeadingBetween(GameObject otherObject) {
