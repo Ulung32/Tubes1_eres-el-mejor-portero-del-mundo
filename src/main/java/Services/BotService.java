@@ -40,10 +40,8 @@ public class BotService {
 
         if (!gameState.getGameObjects().isEmpty()) {
             var foodList = gameState.getGameObjects()
-                    .stream().filter(item -> (item.getGameObjectType() == ObjectTypes.FOOD || item.getGameObjectType() == ObjectTypes.SUPERFOOD))
-                    .sorted(Comparator
-                            .comparing(item -> getDistanceBetween(bot, item)))
-                    .collect(Collectors.toList());
+                    .stream().filter(item -> (item.getGameObjectType() == ObjectTypes.FOOD || item.getGameObjectType() == ObjectTypes.SUPERFOOD || item.getGameObjectType() == ObjectTypes.PLAYER ))
+                    .sorted(Comparator.comparing(item -> getDistanceBetween(bot, item))).collect(Collectors.toList());
             GameObject nearestFood = foodList.get(0);
             target = nearestFood;
             var playerList = gameState.getGameObjects()
@@ -71,11 +69,7 @@ public class BotService {
                     .collect(Collectors.toList());
 
             playerAction.heading = getHeadingBetween(foodList.get(0));
-        }   
-
-
-
-        }
+        }}
         this.playerAction = playerAction;
     }
 
