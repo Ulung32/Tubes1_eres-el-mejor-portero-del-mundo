@@ -79,7 +79,17 @@ public class UtilityFunctions {
     public static int countEnemyNear(GameObject bot, List<GameObject> enemies) {
         int nearEnemyCount = 0;
         for (int i = 0; i < enemies.size(); i++) {
-            if (getTrueDistance(enemies.get(i), bot) < 50) {
+            if (getTrueDistance(enemies.get(i), bot) < 250) {
+                nearEnemyCount += 1;
+            }
+        }
+        return nearEnemyCount;
+    }
+
+    public static int countObstacleNear(GameObject bot, List<GameObject> obstacles) {
+        int nearEnemyCount = 0;
+        for (int i = 0; i < obstacles.size(); i++) {
+            if (getTrueDistance(obstacles.get(i), bot) < 75) {
                 nearEnemyCount += 1;
             }
         }
@@ -92,7 +102,7 @@ public class UtilityFunctions {
         }
         int result = (getHeadingBetween(bot, enemies.get(0)) + 180) % 360;
         for (int i = 1; i < enemyCount; i++) {
-            result += getHeadingBetween(bot, enemies.get(1)) + 180;
+            result += ((getHeadingBetween(bot, enemies.get(i)) + 180) % 360);
             result /= 2;
             result %= 360;
         }
@@ -100,7 +110,7 @@ public class UtilityFunctions {
     }
 
     public static boolean nearEdge(GameObject bot, GameState gameState) {
-        return (distanceFromCenterPoint(bot, gameState)) == (gameState.getWorld().getRadius() - 100);
+        return (distanceFromCenterPoint(bot, gameState)) > (gameState.getWorld().getRadius() - 100);
     }
 
     public static int getHeadingBetween(GameObject bot, GameObject otherObject){
@@ -116,8 +126,8 @@ public class UtilityFunctions {
     }
 
     public static double distanceFromCenterPoint(GameObject object, GameState gameState) {
-        var triangleX = Math.abs(object.getPosition().x - gameState.getWorld().getCenterPoint().x);
-        var triangleY = Math.abs(object.getPosition().y - gameState.getWorld().getCenterPoint().y);
+        var triangleX = Math.abs(object.getPosition().x);
+        var triangleY = Math.abs(object.getPosition().y);
         return Math.sqrt(triangleX * triangleX + triangleY * triangleY) + object.getSize();
     }
 
@@ -186,18 +196,21 @@ public class UtilityFunctions {
         return teleList;
     }
 
-    public static boolean Teleport (GameObject bot, GameState gameState, GameObject target, UUID teleporterID){
-        var Teleporter = gameState.getGameObjects()
-                .stream().filter(item -> item.getGameObjectType() == ObjectTypes.TELEPORTER && item.getId() == teleporterID)
-                .collect(Collectors.toList());
-        var myTeleporter = Teleporter.get(0);
-        var distanceToTarget = getTrueDistance(myTeleporter, target);
-        boolean useTele = false;
-        if(distanceToTarget < bot.getSize()-10){
-            useTele = true;
-        }
-        return useTele;
-    }
+    // public static boolean Teleport (GameObject bot, GameState gameState, GameObject target, UUID teleporterID){
+    //     var Teleporter = gameState.getGameObjects()
+    //             .stream().filter(item -> item.getGameObjectType() == ObjectTypes.TELEPORTER && item.getId() == teleporterID)
+    //             .collect(Collectors.toList());
+    //     var myTeleporter = Teleporter.get(0);
+    //     var distanceToTarget = getTrueDistance(myTeleporter, target);
+    //     boolean useTele = false;
+    //     if(distanceToTarget < bot.getSize()-10){
+    //         useTele = true;
+    //     }
+    //     return useTele;
+    // }
+
+    
+
     public static double getDistance(GameObject bot, GameObject target) {
         var triangleX = Math.abs(bot.getPosition().x - target.getPosition().x);
         var triangleY = Math.abs(bot.getPosition().y - target.getPosition().y);
@@ -230,4 +243,26 @@ public class UtilityFunctions {
     //     var teleBotAngle = toDegrees(Math.atan2(bot.getPosition().y - tele.getPosition().y, bot.getPosition().x - tele.getPosition().x));
     //     var paddingAngle = toDegrees(Math.atan2((bot.getSize())))
     // }
+
+    public static int getRelativeHeading(GameObject bot, GameObject otherObject){
+        return getHeadingBetween(bot, otherObject) - bot.getHeading();
+    }
+
+    public static int avoidGasCloud(GameObject bot, GameObject gas){
+        int saveAngle = toDegrees(Math.asin((gas.getSize()+bot.getSize())/getDistance(bot, gas)));
+        if (getTrueDistance(bot, gas) <= 70){
+            if (getRelativeHeading(bot, gas) < 0){
+                if (getRelativeHeading(bot, gas) > -1*saveAngle){
+                    return getHeadingBetween(bot, gas)+saveAngle;
+                }
+            } else {
+                if (getRelativeHeading(bot, gas) < saveAngle){
+                    return getHeadingBetween(bot, gas)-saveAngle;
+                }
+            }
+        }
+        return bot.getHeading();
+    }
+
+    
 }
