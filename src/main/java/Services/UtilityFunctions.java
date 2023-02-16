@@ -76,25 +76,29 @@ public class UtilityFunctions {
 
     // }
 
-    public static int countEnemyNear(GameObject bot, List<GameObject> enemies) {
+    public static int countEnemyNear(GameObject bot, List<GameObject> enemies, double searchRadius) {
         int nearEnemyCount = 0;
         for (int i = 0; i < enemies.size(); i++) {
-            if (getTrueDistance(enemies.get(i), bot) < 250) {
+            if (getTrueDistance(enemies.get(i), bot) < searchRadius) {
                 nearEnemyCount += 1;
             }
         }
         return nearEnemyCount;
     }
 
-    public static int countObstacleNear(GameObject bot, List<GameObject> obstacles) {
+    public static int countObstacleNear(GameObject bot, List<GameObject> obstacles, double searchRadius) {
         int nearEnemyCount = 0;
         for (int i = 0; i < obstacles.size(); i++) {
-            if (getTrueDistance(obstacles.get(i), bot) < 75) {
+            if (getTrueDistance(obstacles.get(i), bot) < searchRadius) {
                 nearEnemyCount += 1;
             }
         }
         return nearEnemyCount;
     }
+
+    public static double distanceFromEdge(GameObject bot, GameState gameState) {
+        return (gameState.getWorld().getRadius() - 100) - distanceFromCenterPoint(bot, gameState);
+   }
 
     public static int findResultant(GameObject bot, List<GameObject> enemies, int enemyCount) {
         if (enemies.size() == 0) {
