@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <list default="true" id="3996d4f3-dbf7-4be7-9f7a-60b5417e221a" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
@@ -87,30 +88,95 @@
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" />
 =======
     <list default="true" id="3996d4f3-dbf7-4be7-9f7a-60b5417e221a" name="Changes" comment="Build: learn to build jar file">
+=======
+    <list default="true" id="e8f1c2f8-13f5-4f4d-880a-9c8b99e873c0" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_azure_azure_core_1_13_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_11_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_11_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_11_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_dataformat_jackson_dataformat_xml_2_11_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_datatype_jackson_datatype_jsr310_2_11_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_module_jackson_module_jaxb_annotations_2_11_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_woodstox_woodstox_core_6_2_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_gson_gson_2_8_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_microsoft_signalr_signalr_1_0_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_squareup_okhttp3_okhttp_3_11_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_squareup_okio_okio_1_14_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_tcnative_boringssl_static_2_0_35_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_projectreactor_reactor_core_3_3_12_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_reactivex_rxjava2_rxjava_2_2_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__jakarta_activation_jakarta_activation_api_1_2_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__jakarta_xml_bind_jakarta_xml_bind_api_2_3_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_woodstox_stax2_api_4_2_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_reactivestreams_reactive_streams_1_0_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_25.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_simple_1_7_25.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+>>>>>>> c6418bea30351f59158679aa5cb8c2e968220895
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tubes1_eres-el-mejor-portero-del-mundo.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TugasBesar1.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Enums/ObjectTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Enums/ObjectTypes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Enums/PlayerActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Enums/PlayerActions.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Models/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Models/GameObject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Services/BotService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Services/BotService.java" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/target/JavaBot.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/JavaBot.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Enums/ObjectTypes.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Enums/ObjectTypes.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Enums/PlayerActions.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Enums/PlayerActions.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Services/BotService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Services/BotService.class" afterDir="false" />
 >>>>>>> 3641d24b520e361e9e8afcc0cda8f0a406e7865a
+=======
+      <change beforePath="$PROJECT_DIR$/src/main/java/Services/UtilityFunctions.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/JavaBot.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Enums/ObjectTypes.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Enums/PlayerActions.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Models/GameObject.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Models/GameState.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Models/GameStateDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Models/PlayerAction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Models/Position.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Models/World.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Services/BotService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Services/UtilityFunctions.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/libs/azure-core-1.13.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/libs/gson-2.8.5.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/libs/jackson-annotations-2.11.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/libs/jackson-core-2.11.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/libs/jackson-databind-2.11.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/libs/jackson-dataformat-xml-2.11.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/libs/jackson-datatype-jsr310-2.11.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/libs/jackson-module-jaxb-annotations-2.11.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/libs/jakarta.activation-api-1.2.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/libs/jakarta.xml.bind-api-2.3.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/libs/netty-tcnative-boringssl-static-2.0.35.Final.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/libs/okhttp-3.11.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/libs/okio-1.14.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/libs/reactive-streams-1.0.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/libs/reactor-core-3.3.12.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/libs/rxjava-2.2.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/libs/signalr-1.0.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/libs/slf4j-api-1.7.25.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/libs/slf4j-simple-1.7.25.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/libs/stax2-api-4.2.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/libs/woodstox-core-6.2.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
+>>>>>>> c6418bea30351f59158679aa5cb8c2e968220895
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -125,25 +191,16 @@
       </MavenGeneralSettings>
     </option>
   </component>
-  <component name="ProjectId" id="2LJyt90SSpkZir9ftRSIPjjRS0S" />
+  <component name="ProjectId" id="2LaddHbakb86qxjOwfWZjkl6A0Y" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/ITB/Semester 3/Aljabar Liniear dan Geometri/Algeo01_21119&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15039062&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.50978136&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;
+    &quot;last_opened_file_path&quot;: &quot;D:/ITB/Semester 3/Aljabar Liniear dan Geometri/Algeo01_21119&quot;
   }
 }</component>
   <component name="RunManager">
@@ -151,7 +208,7 @@
       <option name="appName" />
       <option name="appServicePlanName" />
       <option name="appServicePlanResourceGroup" />
-      <option name="appSettingsKey" value="deed9b06-36fd-4932-b1d7-df2374a38cec" />
+      <option name="appSettingsKey" value="3066bc4d-c9bd-4c55-9d30-dc5a7fa4d673" />
       <option name="artifact" />
       <option name="autoPort" value="true" />
       <option name="debugOptions" />
@@ -193,20 +250,12 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="3996d4f3-dbf7-4be7-9f7a-60b5417e221a" name="Changes" comment="" />
-      <created>1675603693838</created>
+      <changelist id="e8f1c2f8-13f5-4f4d-880a-9c8b99e873c0" name="Changes" comment="" />
+      <created>1676113213936</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1675603693838</updated>
+      <updated>1676113213936</updated>
     </task>
-    <task id="LOCAL-00001" summary="Build: learn to build jar file">
-      <created>1675606626063</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1675606626063</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -219,9 +268,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="Build: learn to build jar file" />
-    <option name="LAST_COMMIT_MESSAGE" value="Build: learn to build jar file" />
   </component>
 </project>

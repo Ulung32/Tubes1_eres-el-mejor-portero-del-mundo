@@ -35,7 +35,7 @@ public class Main {
             System.out.println("Registered with the runner " + id);
 
             Position position = new Position();
-            GameObject bot = new GameObject(id, 10, 20, 0, position, ObjectTypes.PLAYER, 0, 0, 0, 0, 0);
+            GameObject bot = new GameObject(id, 10, 20, 0, position, ObjectTypes.PLAYER);
             botService.setBot(bot);
         }, UUID.class);
 
@@ -58,7 +58,7 @@ public class Main {
 
         Thread.sleep(1000);
         System.out.println("Registering with the runner...");
-        hubConnection.send("Register", token, "eres-el-mejor-portero-del-mundo");
+        hubConnection.send("Register", token, "Coffee Bot");
 
         //This is a blocking call
         hubConnection.start().subscribe(() -> {
@@ -75,7 +75,6 @@ public class Main {
                 if (hubConnection.getConnectionState() == HubConnectionState.CONNECTED) {
                     hubConnection.send("SendPlayerAction", botService.getPlayerAction());
                 }
-                System.out.println("I was here");
             }
         });
 
