@@ -6,9 +6,6 @@ import Models.*;
 import java.util.*;
 import java.util.stream.*;
 
-import com.ctc.wstx.shaded.msv_core.util.Util;
-import com.fasterxml.jackson.databind.util.TypeKey;
-
 public class BotService {
     private GameObject bot;
     private PlayerAction playerAction;
@@ -265,9 +262,9 @@ public class BotService {
 
         this.playerAction = playerAction;
         
-        System.out.println("Game Tick : ", gameState.getWorld().getCurrentTick());
-        System.out.println("Heading : ");
-        System.out.println("Jarak ke Edge : ", gameState.getWorld().getRadius() -  UtilityFunctions.getDistanceFromCenterPoint(bot));
+        // System.out.println("Game Tick : ", gameState.getWorld().getCurrentTick());
+        // System.out.println("Heading : ");
+        // System.out.println("Jarak ke Edge : ", gameState.getWorld().getRadius() -  UtilityFunctions.getDistanceFromCenterPoint(bot));
     }
 
     public GameState getGameState() {

@@ -15,7 +15,7 @@ public class World {
   }
 
   public Integer getRadius() {
-    return radius;
+    return this.radius;
   }
 
   public void setRadius(Integer radius) {
@@ -23,7 +23,7 @@ public class World {
   }
 
   public Integer getCurrentTick() {
-    return currentTick;
+    return this.currentTick;
   }
 
   public void setCurrentTick(Integer currentTick) {
