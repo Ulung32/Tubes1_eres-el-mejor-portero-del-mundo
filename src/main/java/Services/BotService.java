@@ -56,11 +56,11 @@ public class BotService {
                 .sorted(Comparator.comparing(item -> UtilityFunctions.getTrueDistance(bot, item)))
                 .collect(Collectors.toList());
             var biggerPlayer = gameState.getPlayerGameObjects()
-                    .stream().filter(item -> (item.getSize() >= bot.getSize() && UtilityFunctions.getTrueDistance(bot, item) != 0))
+                    .stream().filter(item -> (item.getSize() >= bot.getSize() && UtilityFunctions.getDistance(bot, item) != 0))
                     .sorted(Comparator.comparing(item -> UtilityFunctions.getTrueDistance(bot, item)))
                     .collect(Collectors.toList());
             var obstacleList = gameState.getGameObjects()
-                    .stream().filter(item -> item.getGameObjectType() == ObjectTypes.GASCLOUD)
+                    .stream().filter(item -> item.getGameObjectType() == ObjectTypes.GASCLOUD || item.getGameObjectType() == ObjectTypes.WORMHOLE)
                     .sorted(Comparator.comparing(item -> UtilityFunctions.getTrueDistance(bot, item)))
                     .collect(Collectors.toList());
             int avoidEnemy, avoidObstacle;
@@ -71,8 +71,8 @@ public class BotService {
             if (UtilityFunctions.nearEdge(bot, gameState)) {
                 String botOutput = "Going to center";
                 int centerHeading = UtilityFunctions.getHeadingToCenterPoint(bot, gameState);
-                int enemiesNear = UtilityFunctions.countEnemyNear(bot, obstacleList, 100);
-                int obstaclesNear = UtilityFunctions.countObstacleNear(bot, obstacleList, 75);
+                int enemiesNear = UtilityFunctions.countEnemyNear(bot, obstacleList, UtilityFunctions.distanceFromEdge(bot, gameState));
+                int obstaclesNear = UtilityFunctions.countObstacleNear(bot, obstacleList, UtilityFunctions.distanceFromEdge(bot, gameState));
                 playerAction.action = PlayerActions.FORWARD;
                 playerAction.heading = centerHeading;
                 if (enemiesNear > 0) {
@@ -91,6 +91,30 @@ public class BotService {
                     botOutput = "Avoiding obstacle";
                     avoidObstacle = UtilityFunctions.findResultant(bot, obstacleList, obstaclesNear);
                     playerAction.heading = ((avoidObstacle + centerHeading) / 2) % 360;
+                }
+                else if(bot.getTorpedoSalvoCount() > 0 && bot.getSize() > 100){
+                    if (biggerPlayer.size() > 0) {
+                        int heading = getHeadingBetween(biggerPlayer.get(0));
+                        if(heading > centerHeading-60 && heading <centerHeading+60){
+                            playerAction.action = PlayerActions.FIRETORPEDOES;
+                            playerAction.heading = heading;
+                            botOutput = "Firing torpedoes and going to center";
+                        }
+                        else{
+                            playerAction.heading = centerHeading;
+                        }
+                        
+                    } else if (smallerPlayerList.size() > 0) {
+                        int heading = getHeadingBetween(smallerPlayerList.get(0));
+                        if(heading > centerHeading-60 && heading <centerHeading+60){
+                            playerAction.action = PlayerActions.FIRETORPEDOES;
+                            playerAction.heading = heading;
+                            botOutput = "Firing torpedoes and going to center";
+                        }
+                        else{
+                            playerAction.heading = centerHeading;
+                        }
+                    }
                 }
                 System.out.println(botOutput);
             } else if (bot.getTorpedoSalvoCount() > 0 && bot.getSize() > 100) {
@@ -118,8 +142,8 @@ public class BotService {
                     obstaclesNear = UtilityFunctions.countObstacleNear(bot, obstacleList, 75);
                     enemiesNear = UtilityFunctions.countEnemyNear(bot, biggerPlayer, 100);
                 } else {
-                    obstaclesNear = UtilityFunctions.countObstacleNear(bot, obstacleList, 75);
-                    enemiesNear = UtilityFunctions.countEnemyNear(bot, biggerPlayer, 100);
+                    obstaclesNear = UtilityFunctions.countObstacleNear(bot, obstacleList, UtilityFunctions.getDistance(bot, target));
+                    enemiesNear = UtilityFunctions.countEnemyNear(bot, biggerPlayer, UtilityFunctions.getDistance(bot, target));
                 }
                 if (enemiesNear > 0) {
                     botOutput = "Running";
@@ -145,6 +169,11 @@ public class BotService {
                     playerAction.heading = avoidObstacle;
                     playerAction.action = PlayerActions.FORWARD;
                 }
+                // else {
+                //     obstaclesNear = UtilityFunctions.countObstacleNear(bot, obstacleList, 75);
+                //     enemiesNear = UtilityFunctions.countEnemyNear(bot, biggerPlayer, 100);
+                // }
+                
                 // int headingPadding = Math.abs(toDegrees(Math.asin((biggerPlayer.get(0).getSize() + bot.getSize()) / getDistanceBetween(bot, biggerPlayer.get(0))))) + 5;
                 System.out.println(botOutput);
                 // if (smallerPlayer.size() > 0 && bot.getTeleporterCount() > 0 && !useTele){
