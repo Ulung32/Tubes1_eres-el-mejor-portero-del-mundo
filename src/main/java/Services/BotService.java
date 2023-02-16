@@ -91,8 +91,10 @@ public class BotService {
                     botOutput = "Avoiding obstacle";
                     avoidObstacle = UtilityFunctions.findResultant(bot, obstacleList, obstaclesNear);
                     playerAction.heading = ((avoidObstacle + centerHeading) / 2) % 360;
-                }
-                else if(bot.getTorpedoSalvoCount() > 0 && bot.getSize() > 100){
+                    if(foods.size()>0 && UtilityFunctions.getTrueDistance(bot, foods.get(0)) < UtilityFunctions.getTrueDistance(bot, obstacleList.get(0)) ){
+                        playerAction.heading = getHeadingBetween(foods.get(0));
+                    }
+                } else if(bot.getTorpedoSalvoCount() > 0 && bot.getSize() > 100){
                     if (biggerPlayer.size() > 0) {
                         int heading = getHeadingBetween(biggerPlayer.get(0));
                         if(heading > centerHeading-60 && heading <centerHeading+60){
@@ -133,9 +135,6 @@ public class BotService {
                 if (foods.size() != 0) {
                     target = foods.get(0);
                     playerAction.heading = getHeadingBetween(target);
-                    if (foods.get(0).getGameObjectType() == ObjectTypes.PLAYER) {
-                        playerAction.action = PlayerActions.FIRETORPEDOES;
-                    }
                 }
                 int obstaclesNear, enemiesNear;
                 if (target == null) {
