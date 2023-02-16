@@ -136,8 +136,8 @@ public class UtilityFunctions {
     }
   
     public static double distanceFromCenterPoint(GameObject object, GameState gameState) {
-        var triangleX = Math.abs(object.getPosition().x);
-        var triangleY = Math.abs(object.getPosition().y);
+        int triangleX = Math.abs(object.getPosition().x);
+        int triangleY = Math.abs(object.getPosition().y);
         return Math.sqrt(triangleX * triangleX + triangleY * triangleY) + object.getSize();
     }
 
