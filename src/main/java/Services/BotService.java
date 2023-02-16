@@ -8,6 +8,8 @@ import java.util.stream.*;
 
 import javax.sound.sampled.SourceDataLine;
 
+import com.ctc.wstx.shaded.msv_core.util.Util;
+
 public class BotService {
     private GameObject bot;
     private PlayerAction playerAction;
@@ -85,24 +87,38 @@ public class BotService {
                 if (enemiesNear > 0) {
                     avoidEnemy = UtilityFunctions.findResultant(bot, biggerPlayer, enemiesNear);
                     int finalHeading;
-                    if (obstaclesNear > 0) {
-                        botOutput = "avoid edge, enemies, gascloud";
-                        avoidObstacle = UtilityFunctions.findResultant(bot, obstacleList, obstaclesNear);
-                        finalHeading = ((avoidEnemy + avoidObstacle) / 2) % 360;
-                    } else {
-                        botOutput = "avoid edge, enemies";
-                        finalHeading = avoidEnemy;
+                    // if (obstaclesNear > 0) {
+                    //     botOutput = "avoid edge, enemies, gascloud";
+                    //     avoidObstacle = UtilityFunctions.findResultant(bot, obstacleList, obstaclesNear);
+                    //     finalHeading = ((avoidEnemy + avoidObstacle) / 2) % 360;
+                    // } else {
+                    //     botOutput = "avoid edge, enemies";
+                    //     finalHeading = avoidEnemy;
+                    // }
+                    // finalHeading = ((finalHeading + centerHeading) / 2) % 360;
+                    
+                    // uji coba
+                    finalHeading = ((avoidEnemy + centerHeading) / 2) % 360;
+                    if (obstaclesNear >0){
+                        finalHeading = UtilityFunctions.avoidGasCloud(bot, obstacleList.get(0), finalHeading);
                     }
-                    finalHeading = ((finalHeading + centerHeading) / 2) % 360;
+
                     playerAction.heading = finalHeading;
                 } else if (obstaclesNear > 0) {
                     botOutput = "Avoiding gasCloud";
-                    avoidObstacle = UtilityFunctions.findResultant(bot, obstacleList, obstaclesNear);
-                    playerAction.heading = ((avoidObstacle + centerHeading) / 2) % 360;
-                    if(foods.size()>0 && UtilityFunctions.getTrueDistance(bot, foods.get(0)) < UtilityFunctions.getTrueDistance(bot, obstacleList.get(0)) ){
-                        playerAction.heading = getHeadingBetween(foods.get(0));
-                        botOutput = "avoid edge, gascloud";
+                    // avoidObstacle = UtilityFunctions.findResultant(bot, obstacleList, obstaclesNear);
+                    // playerAction.heading = ((avoidObstacle + centerHeading) / 2) % 360;
+                    // if(foods.size()>0 && UtilityFunctions.getTrueDistance(bot, foods.get(0)) < UtilityFunctions.getTrueDistance(bot, obstacleList.get(0)) ){
+                    //     playerAction.heading = getHeadingBetween(foods.get(0));
+                    //     botOutput = "eating than avoid gas";
+                    // }
+                    // uji coba
+                    int foodHeading = bot.getCurrentHeading();
+                    if(foods.size()>0){
+                        foodHeading = getHeadingBetween(foods.get(0));
+                        botOutput = "eating than avoid gas";
                     }
+                    playerAction.heading = UtilityFunctions.avoidGasCloud(bot, obstacleList.get(0), foodHeading); 
                 } else if(bot.getTorpedoSalvoCount() > 0 && bot.getSize() > 100){
                     if (biggerPlayer.size() > 0) {
                         int heading = getHeadingBetween(biggerPlayer.get(0));
@@ -161,8 +177,11 @@ public class BotService {
                     int finalHeading;
                     if (obstaclesNear > 0) {
                         botOutput = "avoid enemy dan gasCloud";
-                        avoidObstacle = UtilityFunctions.findResultant(bot, obstacleList, obstaclesNear);
-                        finalHeading = ((avoidEnemy + avoidObstacle) / 2) % 360;
+                        // avoidObstacle = UtilityFunctions.findResultant(bot, obstacleList, obstaclesNear);
+                        // finalHeading = ((avoidEnemy + avoidObstacle) / 2) % 360;
+                        
+                        // Uji Coba
+                        finalHeading = UtilityFunctions.avoidGasCloud(bot, obstacleList.get(0), avoidEnemy);
                     } else {
                         botOutput = "avoid enemy";
                         finalHeading = avoidEnemy;
@@ -177,9 +196,17 @@ public class BotService {
                     // }
                 } else if (obstaclesNear > 0) {
                     botOutput = "Avoiding gasCloud";
-                    avoidObstacle = UtilityFunctions.findResultant(bot, obstacleList, obstaclesNear);
-                    playerAction.heading = avoidObstacle;
-                    playerAction.action = PlayerActions.FORWARD;
+                    // avoidObstacle = UtilityFunctions.findResultant(bot, obstacleList, obstaclesNear);
+                    // playerAction.heading = avoidObstacle;
+                    // playerAction.action = PlayerActions.FORWARD;
+
+                    // Uji Coba
+                    int foodHeading = new Random().nextInt(360);
+                    if (foods.size() != 0) {
+                        target = foods.get(0);
+                        foodHeading = getHeadingBetween(target);
+                    }
+                    playerAction.heading = UtilityFunctions.avoidGasCloud(bot, obstacleList.get(0), foodHeading);
                 }
 
                 if (torpedoList.size()>0){
@@ -232,7 +259,8 @@ public class BotService {
                     System.out.println("Jarak Makanan terdekat :" + UtilityFunctions.getTrueDistance(bot, foods.get(0)) + ", " + foods.get(0));
                 }
                 System.out.println("Heading : " + botOutput);
-                System.out.println("Jarak ke Edge : " + (gameState.getWorld().getRadius() -  UtilityFunctions.distanceFromCenterPoint(bot, gameState)));
+                System.out.println("Size :" + bot.getSize());
+                System.out.println("Jarak ke Edge : " + (gameState.getWorld().getRadius() -  UtilityFunctions.distanceFromEdge(bot, gameState)));
                 System.out.println("\n");
             }
 
