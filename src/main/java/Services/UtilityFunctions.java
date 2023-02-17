@@ -66,21 +66,21 @@ public class UtilityFunctions {
         return true;
     }
 
-    public static int getIdealFoodIdx(GameObject bot, List<GameObject> foodList) {
-        int res = 0, curDistance = (int) Math.round(getTrueDistance(bot, foodList.get(0)));
-        for (int i = 1; i < foodList.size(); i++) {
-            if ((int) Math.round(getTrueDistance(bot, foodList.get(i))) - curDistance >= 3) {
-                break;
-            } else {
-                res++;
-            }
-        }
-        if (res == 0) {
-            return 0;
-        } else {
-            return res + 1;
-        }
-    }
+    // public static int getIdealFoodIdx(GameObject bot, List<GameObject> foodList) {
+    //     int res = 0, curDistance = (int) Math.round(getTrueDistance(bot, foodList.get(0)));
+    //     for (int i = 1; i < foodList.size(); i++) {
+    //         if ((int) Math.round(getTrueDistance(bot, foodList.get(i))) - curDistance >= 3) {
+    //             break;
+    //         } else {
+    //             res++;
+    //         }
+    //     }
+    //     if (res == 0) {
+    //         return 0;
+    //     } else {
+    //         return res + 1;
+    //     }
+    // }
 
     // public static int getTarget(GameObject bot, GameState gameState) {
         
