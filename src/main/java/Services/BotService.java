@@ -142,7 +142,7 @@ public class BotService {
                     enemiesNear = UtilityFunctions.countEnemyNear(bot, biggerPlayer, 100);
                 } else {
                     obstaclesNear = UtilityFunctions.countObstacleNear(bot, obstacleList, UtilityFunctions.getDistance(bot, target));
-                    enemiesNear = UtilityFunctions.countEnemyNear(bot, biggerPlayer, UtilityFunctions.getDistance(bot, target));
+                    enemiesNear = UtilityFunctions.countEnemyNear(bot, biggerPlayer, UtilityFunctions.getDistance(bot, target) );
                 }
                 if (enemiesNear > 0) {
                     botOutput = "Running";
