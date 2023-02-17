@@ -74,24 +74,30 @@ public class BotService {
             int avoidEnemy;
             int tempHeading = 0;
             if (UtilityFunctions.nearEdge(bot, gameState)) {
+                // mekanisme menghindari batas map
                 botOutput = "Going to center";
+                // cari terlebih dahulu heading menuju ke tengah, musuh didekat kita, dan obstacle yang ada di dekat kita
                 int centerHeading = UtilityFunctions.getHeadingToCenterPoint(bot, gameState);
                 int enemiesNear = UtilityFunctions.countEnemyNear(bot, obstacleList, UtilityFunctions.distanceFromEdge(bot, gameState));
                 int obstaclesNear = UtilityFunctions.countObstacleNear(bot, obstacleList, UtilityFunctions.distanceFromEdge(bot, gameState));
                 playerAction.action = PlayerActions.FORWARD;
                 playerAction.heading = centerHeading;
                 if (enemiesNear > 0) {
+                    //Jika ada musuh yang dekat, maka heading merupakan resultan antara centerheading dan enemy terdekat
                     avoidEnemy = UtilityFunctions.findResultant(bot, biggerPlayer, enemiesNear);
                     int finalHeading;
                     finalHeading = ((avoidEnemy + centerHeading) / 2) % 360;
                     if (obstaclesNear > 0) {
+                        //Jika ada obstacle juga, maka hindari gas cloud
                         finalHeading = UtilityFunctions.avoidGasCloud(bot, obstacleList.get(0), finalHeading);
                     }
                     playerAction.heading = finalHeading;
                 } else if (obstaclesNear > 0) {
+                    //jika ada obstacle atau gas cloud
                     botOutput = "Avoiding gasCloud";
                     int foodHeading = bot.getCurrentHeading();
                     if(foods.size() > 0){
+                        //makan sambil menghindari gas
                         if (gameState.getWorld().getCurrentTick() % 2 == 0){
                             foodHeading = getHeadingBetween(foods.get(0));
                             tempHeading = foodHeading;
@@ -103,9 +109,11 @@ public class BotService {
                     }
                     playerAction.heading = UtilityFunctions.avoidGasCloud(bot, obstacleList.get(0), foodHeading); 
                 } else if (bot.getTorpedoSalvoCount() > 0 && bot.getSize() > 100){
+                    //Jika siap untuk menembak, prioritas target yang lebih besar
                     if (biggerPlayer.size() > 0) {
                         int heading = getHeadingBetween(biggerPlayer.get(0));
                         if(heading > centerHeading-60 && heading <centerHeading+60){
+                            // jika target berada di range -60 sampai +60 dari center heading maka bisa menghindari batas sambil menembak
                             playerAction.action = PlayerActions.FIRETORPEDOES;
                             playerAction.heading = heading;
                             botOutput = "Firing torpedoes near border";
@@ -116,6 +124,7 @@ public class BotService {
                         }
                         
                     } else if (smallerPlayerList.size() > 0) {
+                        //untuk target yang lebih kecil, mekanisme sama seperti target yang lebih besar
                         int heading = getHeadingBetween(smallerPlayerList.get(0));
                         if (heading > centerHeading - 60 && heading < centerHeading + 60){
                             playerAction.action = PlayerActions.FIRETORPEDOES;
@@ -128,11 +137,13 @@ public class BotService {
                     }
                 }
             } else if (bot.getTorpedoSalvoCount() > 0 && bot.getSize() > 100 || bot.getSupernovaAvailable() == 1 || supernovaFired) {
+                //mekanisme menembak supernova atau torpedo
                 var supernovaBomb = gameState.getGameObjects()
                     .stream().filter(item -> (item.getGameObjectType() == ObjectTypes.SUPERNOVABOMB))
                     .sorted(Comparator.comparing(item -> UtilityFunctions.getTrueDistance(bot, item)))
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toList()); //cari supernova
                 if (bot.getSupernovaAvailable() == 1) {
+                    //tembak supernova
                     playerAction.action = PlayerActions.FIRESUPERNOVA;
                     supernovaFired = true;
                     if (biggerPlayer.size() > 0) {
@@ -143,8 +154,10 @@ public class BotService {
                         playerAction.heading = getHeadingBetween(smallerPlayerList.get(0));
                     }
                 } else if (supernovaFired && getDistanceBetween(bot, supernovaBomb.get(0)) >= 400) {
+                    //meledakan supernova
                     playerAction.action = PlayerActions.DETONATESUPERNOVA;
                 } else {
+                    // jiak tidak memiliki supernova, maka tembak torpedo
                     playerAction.action = PlayerActions.FIRETORPEDOES;
                     if (biggerPlayer.size() > 0) {
                         botOutput = "firing torpedo ke bigger";
@@ -155,10 +168,12 @@ public class BotService {
                     }
                 }
             } else {
+                //mekanisme mencari makan
                 GameObject target = null;
                 botOutput = "Eating";
                 playerAction.action = PlayerActions.FORWARD;
                 if (foods.size() != 0) {
+                    //cari target makan
                     if (foods.size() > 1) {
                         if (Math.abs((int) Math.round(UtilityFunctions.getTrueDistance(bot, foods.get(0)) - UtilityFunctions.getTrueDistance(bot, foods.get(1)))) < 5){
                             if (foods.size() > 2 && Math.abs((int) Math.round(UtilityFunctions.getTrueDistance(bot, foods.get(2)) - UtilityFunctions.getTrueDistance(bot, foods.get(1)))) < 5) {
@@ -178,17 +193,20 @@ public class BotService {
                     }
                 }
                 int obstaclesNear, enemiesNear;
-                if (target == null) {
+                if (target == null) {// jika tidak ada target yang bisa dimakan cari obstacle dan musuh yg lebih besar dalam skala radius 100 dan 75
                     obstaclesNear = UtilityFunctions.countObstacleNear(bot, obstacleList, 75);
                     enemiesNear = UtilityFunctions.countEnemyNear(bot, biggerPlayer, 100);
                 } else {
+                    // cari musuh dan obstacle dalam skala dari radius bot dan target
                     obstaclesNear = UtilityFunctions.countObstacleNear(bot, obstacleList, UtilityFunctions.getDistance(bot, target));
                     enemiesNear = UtilityFunctions.countEnemyNear(bot, biggerPlayer, UtilityFunctions.getDistance(bot, target) );
                 }
                 if (enemiesNear > 0) {
+                    // menghindari pemain lain 
                     avoidEnemy = UtilityFunctions.findResultant(bot, biggerPlayer, enemiesNear);
                     int finalHeading;
                     if (obstaclesNear > 0) {
+                        //menghindari gas cloud bersama dengan enemy
                         botOutput = "avoid enemy dan gasCloud";
                         finalHeading = UtilityFunctions.avoidGasCloud(bot, obstacleList.get(0), avoidEnemy);
                     } else {
@@ -198,6 +216,7 @@ public class BotService {
                     playerAction.heading = finalHeading;
                     playerAction.action = PlayerActions.FORWARD;
                 } else if (obstaclesNear > 0) {
+                    //jika tidak ada musuh dan ada gas cloud
                     botOutput = "Avoiding gasCloud";
                     int foodHeading = new Random().nextInt(360);
                     if (foods.size() != 0) {
@@ -213,8 +232,10 @@ public class BotService {
                 }
 
                 if (teleporterList.size() > 0) {
+                    // deteksi teleport
                     for (int i = 0; i < teleporterList.size(); i++) {
                         if (UtilityFunctions.avoidTeleporter(bot, teleporterList.get(i))) {
+                            // mekanisme menghindari teleport lawan
                             if (fireTeleporter) {
                                 if (teleporterLocked) {
                                     botOutput = "Teleporting";
@@ -228,6 +249,7 @@ public class BotService {
                                     teleporter = teleporterList.get(0);
                                 }
                             } else {
+                                // menembakan teleport  ke pemain lebih kecil atau makanan
                                 if (bot.getTeleporterCount() > 0) {
                                     if (smallerPlayerList.size() > 0) {
                                         for (int j = smallerPlayerList.size() - 1; j >= 0; j--) {
