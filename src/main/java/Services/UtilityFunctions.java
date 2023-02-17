@@ -99,8 +99,8 @@ public class UtilityFunctions {
     }
 
     public static double distanceFromEdge(GameObject bot, GameState gameState) {
-        return (gameState.getWorld().getRadius() - 100) - distanceFromCenterPoint(bot, gameState);
-   }
+        return ((double)(gameState.getWorld().getRadius()) - 100) - distanceFromCenterPoint(bot, gameState);
+    }
 
     public static int findResultant(GameObject bot, List<GameObject> enemies, int enemyCount) {
         if (enemies.size() == 0) {
@@ -116,7 +116,7 @@ public class UtilityFunctions {
     }
 
     public static boolean nearEdge(GameObject bot, GameState gameState) {
-        return (distanceFromCenterPoint(bot, gameState)) > (gameState.getWorld().getRadius() - 100);
+        return (distanceFromCenterPoint(bot, gameState)) > (double)(gameState.getWorld().getRadius() - 30);
     }
 
     public static int getHeadingBetween(GameObject bot, GameObject otherObject){
@@ -233,7 +233,7 @@ public class UtilityFunctions {
     }
 
     public static boolean outOfBounds(GameObject object, GameState gameState) {
-        if (getDistanceFromCenterPoint(object, gameState) > gameState.getWorld().getRadius()) {
+        if (getDistanceFromCenterPoint(object, gameState) > (double)gameState.getWorld().getRadius()) {
             return true;
         } else {
             return false;
@@ -275,6 +275,22 @@ public class UtilityFunctions {
         int relativeHeading = getHeadingBetween(torpedo, bot) - torpedo.getCurrentHeading();
         if (getTrueDistance(torpedo, bot) <=100){
             if (relativeHeading < 0){
+                if (relativeHeading > -1*saveAngle){
+                    return true;
+                }
+            } else {
+                if (relativeHeading < saveAngle){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public static boolean activateAfterBurner(GameObject bot, GameObject torpedo){
+        int saveAngle = toDegrees(Math.asin((bot.getSize()+torpedo.getSize())/getDistance(torpedo, bot)));
+        int relativeHeading = getHeadingBetween(torpedo, bot) - torpedo.getCurrentHeading();
+        if (getTrueDistance(torpedo, bot) <= 250 && getTrueDistance(torpedo, bot) > 100){
+            if (relativeHeading < 0){
                 if (relativeHeading < 0){
                     if (relativeHeading > -1*saveAngle){
                         return true;
@@ -288,5 +304,4 @@ public class UtilityFunctions {
         }
         return false;
     }
-    
 }
