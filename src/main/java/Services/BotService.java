@@ -127,7 +127,6 @@ public class BotService {
                         }
                     }
                 }
-                // System.out.println(botOutput);
             } else if (bot.getTorpedoSalvoCount() > 0 && bot.getSize() > 100 || bot.getSupernovaAvailable() == 1 || supernovaFired) {
                 var supernovaBomb = gameState.getGameObjects()
                     .stream().filter(item -> (item.getGameObjectType() == ObjectTypes.SUPERNOVABOMB))
@@ -155,7 +154,6 @@ public class BotService {
                         playerAction.heading = getHeadingBetween(smallerPlayerList.get(0));
                     }
                 }
-                // System.out.println(botOutput);
             } else {
                 GameObject target = null;
                 botOutput = "Eating";
@@ -192,10 +190,6 @@ public class BotService {
                     int finalHeading;
                     if (obstaclesNear > 0) {
                         botOutput = "avoid enemy dan gasCloud";
-                        // avoidObstacle = UtilityFunctions.findResultant(bot, obstacleList, obstaclesNear);
-                        // finalHeading = ((avoidEnemy + avoidObstacle) / 2) % 360;
-                        
-                        // Uji Coba
                         finalHeading = UtilityFunctions.avoidGasCloud(bot, obstacleList.get(0), avoidEnemy);
                     } else {
                         botOutput = "avoid enemy";
@@ -203,19 +197,8 @@ public class BotService {
                     }
                     playerAction.heading = finalHeading;
                     playerAction.action = PlayerActions.FORWARD;
-                    
-                    // if (bot.getTorpedoSalvoCount() > 0) {
-                    //     botOutput = "Firing torpedoes";
-                    //     playerAction.action = PlayerActions.FIRETORPEDOES;
-                    //     playerAction.heading = getHeadingBetween(biggerPlayer.get(0));
-                    // }
                 } else if (obstaclesNear > 0) {
                     botOutput = "Avoiding gasCloud";
-                    // avoidObstacle = UtilityFunctions.findResultant(bot, obstacleList, obstaclesNear);
-                    // playerAction.heading = avoidObstacle;
-                    // playerAction.action = PlayerActions.FORWARD;
-
-                    // Uji Coba
                     int foodHeading = new Random().nextInt(360);
                     if (foods.size() != 0) {
                         target = foods.get(0);
@@ -281,55 +264,6 @@ public class BotService {
                     }
                 }
 
-                // if (torpedoList.size()>0){
-                //     if (UtilityFunctions.activateAfterBurner(bot, torpedoList.get(0)) && bot.getSize()>100){
-                //         playerAction.action = PlayerActions.STARTAFTERBURNER;
-                //         useTele = true;
-                //     }
-                // }
-
-                // if (useTele == true && bot.getSize() <= 100){
-                //     playerAction.action = PlayerActions.STOPAFTERBURNER;
-                //     useTele = false;
-                // }
-
-
-
-
-                // else {
-                //     obstaclesNear = UtilityFunctions.countObstacleNear(bot, obstacleList, 75);
-                //     enemiesNear = UtilityFunctions.countEnemyNear(bot, biggerPlayer, 100);
-                // }
-                
-                // int headingPadding = Math.abs(toDegrees(Math.asin((biggerPlayer.get(0).getSize() + bot.getSize()) / getDistanceBetween(bot, biggerPlayer.get(0))))) + 5;
-                // System.out.println(botOutput);
-                // if (smallerPlayer.size() > 0 && bot.getTeleporterCount() > 0 && !useTele){
-                //     playerAction.heading = UtilityFunctions.getHeadingBetween(bot, smallerPlayer.get(smallerPlayer.size()-1));
-                //     playerAction.action = PlayerActions.FIRETELEPORT;
-                //     useTele = true;
-                //     teleHeading = playerAction.heading;
-                // } else {
-                    // if (useTele) {
-                    //     var teleList = UtilityFunctions.getTeleporterList(gameState, bot);
-                    //     GameObject myTele = null;
-                    //     for (int i = 0; i < teleList.size(); i++){
-                    //         if(teleList.get(i).getHeading() == teleHeading){
-                    //             myTele = teleList.get(i);
-                    //             break;
-                    //         }
-                    //     }
-                    //     for(int i = 0; i < smallerPlayer.size(); i++){
-                    //         if(UtilityFunctions.getTrueDistance(smallerPlayer.get(i), myTele) < bot.getSize()){
-                    //             playerAction.action = PlayerActions.TELEPORT;
-                    //             break;
-                    //         }
-                    //     }
-                    // }
-                    // else
-                // }
-                // if (gasList.size() >0){
-                    //     this.playerAction.heading = UtilityFunctions.avoidGasCloud(bot, gasList.get(0));
-                    // }
                 System.out.println("Game Tick : " + gameState.getWorld().getCurrentTick());
                 if (obstacleList.size()>0){
                     System.out.println("Jarak gas cloud terdekat :" + UtilityFunctions.getTrueDistance(bot, obstacleList.get(0)));
@@ -348,65 +282,9 @@ public class BotService {
                 System.out.println("current Heading :" + bot.getCurrentHeading());
                 System.out.println("Size :" + bot.getSize());
                 System.out.println("Jarak ke edge :" + UtilityFunctions.distanceFromEdge(bot, gameState) + 100);
-                // System.out.println("jarak dari tengah : " + UtilityFunctions.distanceFromCenterPoint(bot, gameState));
-                // System.out.println("radius dunia : " + gameState.getWorld().getRadius());
                 System.out.println("\n");
             }
-
-        //     if (UtilityFunctions.nearEdge(bot, gameState)) {
-        //         int enemiesNear = UtilityFunctions.countEnemyNear(bot, objectsToAvoid), resultantHeading, sidingHeading;
-        //         sidingHeading = UtilityFunctions.getHeadingToCenterPoint(bot, gameState) % 360;
-        //         if (enemiesNear > 0) {
-        //             resultantHeading = UtilityFunctions.findResultant(bot, objectsToAvoid, enemiesNear);
-        //             resultantHeading = ((resultantHeading + sidingHeading) / 2) % 360;
-        //             playerAction.heading = resultantHeading;
-        //             if (UtilityFunctions.getTrueDistance(objectsToAvoid.get(0), bot) < 50 && bot.getSize() > 100) {
-        //                 playerAction.action = PlayerActions.FORWARD;
-        //             } else if (bot.getSize() < 100) {
-        //                 playerAction.action = PlayerActions.FORWARD;
-        //             } else {
-        //                 playerAction.action = PlayerActions.FORWARD;
-        //             }
-        //         } else {
-        //             resultantHeading = sidingHeading % 360;
-        //             playerAction.heading = resultantHeading;
-        //             playerAction.action = PlayerActions.FORWARD;
-        //         }
-        //     } else if (objectsToAvoid.size() > 0 && UtilityFunctions.getTrueDistance(objectsToAvoid.get(0), bot) < 100) {
-        //         int enemiesNear = UtilityFunctions.countEnemyNear(bot, objectsToAvoid), resultantHeading;
-        //         resultantHeading = UtilityFunctions.findResultant(bot, objectsToAvoid, enemiesNear);
-        //         playerAction.heading = resultantHeading;
-        //         if (UtilityFunctions.getTrueDistance(objectsToAvoid.get(0), bot) < 50 && bot.getSize() > 100) {
-        //             playerAction.action = PlayerActions.FORWARD;
-        //         } else {
-        //             playerAction.action = PlayerActions.FORWARD;
-        //         }
-        //     } else {
-        //         // GameObject target = null;
-        //         // int targetDensity = 0;
-        //         // for (int i = 0; i < edibleList.size(); i++) {
-        //         //     GameObject currentTarget = edibleList.get(i);
-        //         //     if (UtilityFunctions.getDensity(currentTarget, edibleList) > targetDensity) {
-        //         //         if (UtilityFunctions.isSave(bot, objectsToAvoid, currentTarget)) {
-        //         //             targetDensity = UtilityFunctions.getDensity(currentTarget, edibleList) / ((int) UtilityFunctions.getTrueDistance(bot, currentTarget)+1);
-        //         //             target = currentTarget;
-        //         //         }
-        //         //     }
-        //         // }
-        //         // playerAction.heading = getHeadingBetween(target);
-        //         // playerAction.action = PlayerActions.FORWARD;
-        //         GameObject target;
-        //         if (smallerPlayer.size() > 0) {
-        //             target = smallerPlayer.get(0);
-        //         } else {
-        //             target = foodList.get(0);
-        //         }
-        //         playerAction.heading = getHeadingBetween(target);
-        //         playerAction.action = PlayerActions.FORWARD;
-        //     }
         }
-
-
         this.playerAction = playerAction;
         
     }
@@ -440,6 +318,5 @@ public class BotService {
     private int toDegrees(double v) {
         return (int) (v * (180 / Math.PI));
     }
-
 
 }
