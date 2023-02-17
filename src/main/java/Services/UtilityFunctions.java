@@ -115,6 +115,31 @@ public class UtilityFunctions {
         return result;
     }
 
+    public static boolean avoidTeleporter(GameObject bot, GameObject nearestTeleporter) {
+        int saveAngle = toDegrees(Math.asin((bot.getSize())/getDistance(nearestTeleporter, bot)));
+        int relativeHeading = getHeadingBetween(nearestTeleporter, bot) - nearestTeleporter.getCurrentHeading();
+        if (getTrueDistance(nearestTeleporter, bot) <= 100){
+            if (relativeHeading < 0){
+                if (relativeHeading > -1*saveAngle){
+                    return true;
+                }
+            } else {
+                if (relativeHeading < saveAngle){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean targetIsSaveToTeleport(GameObject bot, GameObject target, GameState gameState) {
+        var biggerPlayerAroundTarget = gameState.getPlayerGameObjects()
+            .stream().filter(item -> (item.getSize() >= bot.getSize() && UtilityFunctions.getDistance(bot, item) != 0 && UtilityFunctions.getTrueDistance(target, item) <= bot.getSize()))
+            .sorted(Comparator.comparing(item -> UtilityFunctions.getTrueDistance(bot, item)))
+            .collect(Collectors.toList());
+        return biggerPlayerAroundTarget.size() == 0 && target.getSize() < bot.getSize() - 30 && bot.getSize() > 50;
+    }
+
     public static boolean nearEdge(GameObject bot, GameState gameState) {
         return (distanceFromCenterPoint(bot, gameState)) > (double)(gameState.getWorld().getRadius() - 30);
     }

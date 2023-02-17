@@ -1,12 +1,11 @@
-
-D:\ITB 21\KULYAHHH\SEMESTER 4\Stima\Tubes-1_Greedy-Galaxio\Tubes1_eres-el-mejor-portero-del-mundo\src\main\java\Models\Position.java
-D:\ITB 21\KULYAHHH\SEMESTER 4\Stima\Tubes-1_Greedy-Galaxio\Tubes1_eres-el-mejor-portero-del-mundo\src\main\java\Enums\PlayerActions.java
-D:\ITB 21\KULYAHHH\SEMESTER 4\Stima\Tubes-1_Greedy-Galaxio\Tubes1_eres-el-mejor-portero-del-mundo\src\main\java\Models\GameStateDto.java
-D:\ITB 21\KULYAHHH\SEMESTER 4\Stima\Tubes-1_Greedy-Galaxio\Tubes1_eres-el-mejor-portero-del-mundo\src\main\java\Models\GameObject.java
-D:\ITB 21\KULYAHHH\SEMESTER 4\Stima\Tubes-1_Greedy-Galaxio\Tubes1_eres-el-mejor-portero-del-mundo\src\main\java\Models\World.java
-D:\ITB 21\KULYAHHH\SEMESTER 4\Stima\Tubes-1_Greedy-Galaxio\Tubes1_eres-el-mejor-portero-del-mundo\src\main\java\Models\GameState.java
-D:\ITB 21\KULYAHHH\SEMESTER 4\Stima\Tubes-1_Greedy-Galaxio\Tubes1_eres-el-mejor-portero-del-mundo\src\main\java\Services\BotService.java
-D:\ITB 21\KULYAHHH\SEMESTER 4\Stima\Tubes-1_Greedy-Galaxio\Tubes1_eres-el-mejor-portero-del-mundo\src\main\java\Models\PlayerAction.java
-D:\ITB 21\KULYAHHH\SEMESTER 4\Stima\Tubes-1_Greedy-Galaxio\Tubes1_eres-el-mejor-portero-del-mundo\src\main\java\Enums\ObjectTypes.java
-D:\ITB 21\KULYAHHH\SEMESTER 4\Stima\Tubes-1_Greedy-Galaxio\Tubes1_eres-el-mejor-portero-del-mundo\src\main\java\Main.java
-D:\ITB 21\KULYAHHH\SEMESTER 4\Stima\Tubes-1_Greedy-Galaxio\Tubes1_eres-el-mejor-portero-del-mundo\src\main\java\Services\UtilityFunctions.java
+D:\ITB\Semester 4\Strategi Algoritma\TugasBesar1\src\main\java\Enums\PlayerActions.java
+D:\ITB\Semester 4\Strategi Algoritma\TugasBesar1\src\main\java\Enums\ObjectTypes.java
+D:\ITB\Semester 4\Strategi Algoritma\TugasBesar1\src\main\java\Services\UtilityFunctions.java
+D:\ITB\Semester 4\Strategi Algoritma\TugasBesar1\src\main\java\Models\PlayerAction.java
+D:\ITB\Semester 4\Strategi Algoritma\TugasBesar1\src\main\java\Models\GameObject.java
+D:\ITB\Semester 4\Strategi Algoritma\TugasBesar1\src\main\java\Models\World.java
+D:\ITB\Semester 4\Strategi Algoritma\TugasBesar1\src\main\java\Main.java
+D:\ITB\Semester 4\Strategi Algoritma\TugasBesar1\src\main\java\Services\BotService.java
+D:\ITB\Semester 4\Strategi Algoritma\TugasBesar1\src\main\java\Models\GameStateDto.java
+D:\ITB\Semester 4\Strategi Algoritma\TugasBesar1\src\main\java\Models\Position.java
+D:\ITB\Semester 4\Strategi Algoritma\TugasBesar1\src\main\java\Models\GameState.java

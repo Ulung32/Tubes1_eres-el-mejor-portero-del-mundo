@@ -6,16 +6,13 @@ import Models.*;
 import java.util.*;
 import java.util.stream.*;
 
-import javax.sound.sampled.SourceDataLine;
-
-import com.ctc.wstx.shaded.msv_core.util.Util;
-
 public class BotService {
     private GameObject bot;
     private PlayerAction playerAction;
     private GameState gameState;
-    private boolean useTele;
-    private int teleHeading;
+    private GameObject teleporter;
+    private boolean fireTeleporter = false;
+    private boolean teleporterLocked = false;
 
     public BotService() {
         this.playerAction = new PlayerAction();
@@ -40,7 +37,7 @@ public class BotService {
     }
     
     public void computeNextPlayerAction(PlayerAction playerAction) {
-        String botOutput = "";
+        String botOutput = "Random Heading";
         playerAction.action = PlayerActions.FORWARD;
         playerAction.heading = new Random().nextInt(360);
         
@@ -73,7 +70,11 @@ public class BotService {
                     .stream().filter(item -> item.getGameObjectType() == ObjectTypes.TORPEDOSALVO)
                     .sorted(Comparator.comparing(item -> UtilityFunctions.getTrueDistance(bot, item)))
                     .collect(Collectors.toList());
-            int avoidEnemy, avoidObstacle;
+            var teleporterList = gameState.getGameObjects()
+                    .stream().filter(item -> item.getGameObjectType() == ObjectTypes.TELEPORTER)
+                    .sorted(Comparator.comparing(item -> UtilityFunctions.getTrueDistance(bot, item)))
+                    .collect(Collectors.toList());
+            int avoidEnemy;
             // var objectsToAvoid = Stream.concat(biggerPlayer, obstacleList)
             //         .sorted(Comparator.comparing(item -> UtilityFunctions.getTrueDistance(bot, item)))
             //         .collect(Collectors.toList());
@@ -100,7 +101,7 @@ public class BotService {
                     
                     // uji coba
                     finalHeading = ((avoidEnemy + centerHeading) / 2) % 360;
-                    if (obstaclesNear >0){
+                    if (obstaclesNear > 0) {
                         finalHeading = UtilityFunctions.avoidGasCloud(bot, obstacleList.get(0), finalHeading);
                     }
 
@@ -115,8 +116,8 @@ public class BotService {
                     // }
                     // uji coba
                     int foodHeading = bot.getCurrentHeading();
-                    if(foods.size()>0){
-                        if (gameState.getWorld().getCurrentTick() %2 == 0){
+                    if(foods.size() > 0){
+                        if (gameState.getWorld().getCurrentTick() % 2 == 0){
                             foodHeading = getHeadingBetween(foods.get(0));
                             tempHeading = foodHeading;
                         } else {
@@ -126,28 +127,27 @@ public class BotService {
                         botOutput = "eating than avoid gas";
                     }
                     playerAction.heading = UtilityFunctions.avoidGasCloud(bot, obstacleList.get(0), foodHeading); 
-                } else if(bot.getTorpedoSalvoCount() > 0 && bot.getSize() > 100){
+                } else if (bot.getTorpedoSalvoCount() > 0 && bot.getSize() > 100){
                     if (biggerPlayer.size() > 0) {
                         int heading = getHeadingBetween(biggerPlayer.get(0));
                         if(heading > centerHeading-60 && heading <centerHeading+60){
                             playerAction.action = PlayerActions.FIRETORPEDOES;
                             playerAction.heading = heading;
-                            botOutput = "ke enemy dekat center dan firing torpedo";
+                            botOutput = "Firing torpedoes near border";
                         }
                         else{
-                            botOutput = "avoid Edge";
+                            botOutput = "Avoiding border";
                             playerAction.heading = centerHeading;
                         }
                         
                     } else if (smallerPlayerList.size() > 0) {
                         int heading = getHeadingBetween(smallerPlayerList.get(0));
-                        if(heading > centerHeading-60 && heading <centerHeading+60){
+                        if (heading > centerHeading - 60 && heading < centerHeading + 60){
                             playerAction.action = PlayerActions.FIRETORPEDOES;
                             playerAction.heading = heading;
-                            botOutput = "ke enemy dekat center dan firing torpedo";
-                        }
-                        else{
-                            botOutput = "avoid Edge";
+                            botOutput = "Firing torpedoes to smaller players";
+                        } else {
+                            botOutput = "Avoiding border";
                             playerAction.heading = centerHeading;
                         }
                     }
@@ -226,6 +226,51 @@ public class BotService {
                     }
                     playerAction.heading = UtilityFunctions.avoidGasCloud(bot, obstacleList.get(0), foodHeading);
                 }
+
+                if (teleporterList.size() > 0) {
+                    for (int i = 0; i < teleporterList.size(); i++) {
+                        if (UtilityFunctions.avoidTeleporter(bot, teleporterList.get(i))) {
+                            if (fireTeleporter) {
+                                if (teleporterLocked) {
+                                    botOutput = "Teleporting";
+                                    if (UtilityFunctions.getDistance(teleporter, bot) <= 20 || UtilityFunctions.getDistance(teleporterList.get(i), bot) <= 40) {
+                                        playerAction.action = PlayerActions.TELEPORT;
+                                        fireTeleporter = false;
+                                        teleporterLocked = false;
+                                    }
+                                } else {
+                                    botOutput = "Locking teleporter";
+                                    teleporter = teleporterList.get(0);
+                                }
+                            } else {
+                                if (bot.getTeleporterCount() > 0) {
+                                    if (smallerPlayerList.size() > 0) {
+                                        for (int j = smallerPlayerList.size() - 1; j >= 0; j--) {
+                                            if (UtilityFunctions.targetIsSaveToTeleport(bot, smallerPlayerList.get(j), gameState)) {
+                                                botOutput = "Teleporting to smaller player";
+                                                playerAction.heading = getHeadingBetween(smallerPlayerList.get(j));
+                                                playerAction.action = PlayerActions.FIRETELEPORT;
+                                                fireTeleporter = true;
+                                                break;
+                                            }
+                                        }
+                                    } else if (foods.size() > 0) {
+                                        for (int j = foods.size() - 1; j >= 0; j--) {
+                                            if (UtilityFunctions.targetIsSaveToTeleport(bot, foods.get(j), gameState)) {
+                                                botOutput = "Teleporting to ideal food";
+                                                playerAction.heading = getHeadingBetween(foods.get(j));
+                                                playerAction.action = PlayerActions.FIRETELEPORT;
+                                                fireTeleporter = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
                 String aktifga = "ga aktif";
                 if (torpedoList.size()>0){
                     if (UtilityFunctions.activateShield(bot, torpedoList.get(0)) && bot.getSize()>50){
@@ -233,7 +278,6 @@ public class BotService {
                         aktifga = "aktif";
                     }
                 }
-
 
                 // if (torpedoList.size()>0){
                 //     if (UtilityFunctions.activateAfterBurner(bot, torpedoList.get(0)) && bot.getSize()>100){
