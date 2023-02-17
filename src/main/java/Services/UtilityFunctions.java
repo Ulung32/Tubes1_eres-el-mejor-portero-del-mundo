@@ -6,6 +6,8 @@ import Models.*;
 import java.util.*;
 import java.util.stream.*;
 
+import org.codehaus.stax2.ri.evt.Stax2EventAllocatorImpl;
+
 
 public class UtilityFunctions {
 
@@ -97,8 +99,8 @@ public class UtilityFunctions {
     }
 
     public static double distanceFromEdge(GameObject bot, GameState gameState) {
-        return (gameState.getWorld().getRadius() - 100) - distanceFromCenterPoint(bot, gameState);
-   }
+        return ((double)(gameState.getWorld().getRadius()) - 100) - distanceFromCenterPoint(bot, gameState);
+    }
 
     public static int findResultant(GameObject bot, List<GameObject> enemies, int enemyCount) {
         if (enemies.size() == 0) {
@@ -114,7 +116,7 @@ public class UtilityFunctions {
     }
 
     public static boolean nearEdge(GameObject bot, GameState gameState) {
-        return (distanceFromCenterPoint(bot, gameState)) > (gameState.getWorld().getRadius() - 100);
+        return (distanceFromCenterPoint(bot, gameState)) > (double)(gameState.getWorld().getRadius() - 30);
     }
 
     public static int getHeadingBetween(GameObject bot, GameObject otherObject){
@@ -123,18 +125,21 @@ public class UtilityFunctions {
         return (direction + 360) % 360;
     }
 
+    public static int getRelativeHeading(GameObject bot, GameObject otherObject){
+        return getHeadingBetween(bot, otherObject) - bot.getCurrentHeading();
+    }
+
     public static int getHeadingToCenterPoint(GameObject bot, GameState gameState) {
         var direction = toDegrees(Math.atan2(gameState.getWorld().getCenterPoint().y - bot.getPosition().y,
             gameState.getWorld().getCenterPoint().x - bot.getPosition().x));
-        return (direction + 360) % 360;
+        return direction;
     }
-
+  
     public static double distanceFromCenterPoint(GameObject object, GameState gameState) {
-        var triangleX = Math.abs(object.getPosition().x);
-        var triangleY = Math.abs(object.getPosition().y);
+        int triangleX = Math.abs(object.getPosition().x);
+        int triangleY = Math.abs(object.getPosition().y);
         return Math.sqrt(triangleX * triangleX + triangleY * triangleY) + object.getSize();
     }
-
 
     public static List<GameObject> listSmaller(GameObject bot, GameState gameState){
         var playerList = gameState.getGameObjects()
@@ -151,9 +156,9 @@ public class UtilityFunctions {
     // public static boolean isMidGame(GameObject bot, GameState gameState){
 
     // }
-    public static int getHeadingTeleport(GameObject bot, GameObject target){
-        return getHeadingBetween(bot, target);
-    }
+    // public static int getHeadingTeleport(GameObject bot, GameObject target){
+    //     return getHeadingBetween(bot, target);
+    // }
 
     public static int getSaveHeading(GameObject bot, List<GameObject> obstacles) {
         List<Integer> notSave = new ArrayList<Integer>();
@@ -228,7 +233,7 @@ public class UtilityFunctions {
     }
 
     public static boolean outOfBounds(GameObject object, GameState gameState) {
-        if (getDistanceFromCenterPoint(object, gameState) > gameState.getWorld().getRadius()) {
+        if (getDistanceFromCenterPoint(object, gameState) > (double)gameState.getWorld().getRadius()) {
             return true;
         } else {
             return false;
@@ -243,30 +248,60 @@ public class UtilityFunctions {
         return outOfBounds(myTeleporter, gameState);
     }
 
-    // public static boolean isTeleportToUs(GameObject bot, GameObject tele){
+    // public static boolean avoidTeleport(GameObject bot, GameObject tele){
     //     var teleBotAngle = toDegrees(Math.atan2(bot.getPosition().y - tele.getPosition().y, bot.getPosition().x - tele.getPosition().x));
     //     var paddingAngle = toDegrees(Math.atan2((bot.getSize())))
     // }
 
-    public static int getRelativeHeading(GameObject bot, GameObject otherObject){
-        return getHeadingBetween(bot, otherObject) - bot.getHeading();
-    }
-
-    public static int avoidGasCloud(GameObject bot, GameObject gas){
+    public static int avoidGasCloud(GameObject bot, GameObject gas, int prevHeading){
         int saveAngle = toDegrees(Math.asin((gas.getSize()+bot.getSize())/getDistance(bot, gas)));
+        int relativeHeading = getHeadingBetween(bot, gas) - prevHeading;
         if (getTrueDistance(bot, gas) <= 70){
-            if (getRelativeHeading(bot, gas) < 0){
-                if (getRelativeHeading(bot, gas) > -1*saveAngle){
+            if (relativeHeading < 0){
+                if (relativeHeading > -1*saveAngle){
                     return getHeadingBetween(bot, gas)+saveAngle;
                 }
             } else {
-                if (getRelativeHeading(bot, gas) < saveAngle){
+                if (relativeHeading < saveAngle){
                     return getHeadingBetween(bot, gas)-saveAngle;
                 }
             }
         }
-        return bot.getHeading();
+        return prevHeading;
     }
 
-    
+    public static boolean activateShield(GameObject bot, GameObject torpedo){
+        int saveAngle = toDegrees(Math.asin((bot.getSize()+torpedo.getSize())/getDistance(torpedo, bot)));
+        int relativeHeading = getHeadingBetween(torpedo, bot) - torpedo.getCurrentHeading();
+        if (getTrueDistance(torpedo, bot) <=100){
+            if (relativeHeading < 0){
+                if (relativeHeading > -1*saveAngle){
+                    return true;
+                }
+            } else {
+                if (relativeHeading < saveAngle){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public static boolean activateAfterBurner(GameObject bot, GameObject torpedo){
+        int saveAngle = toDegrees(Math.asin((bot.getSize()+torpedo.getSize())/getDistance(torpedo, bot)));
+        int relativeHeading = getHeadingBetween(torpedo, bot) - torpedo.getCurrentHeading();
+        if (getTrueDistance(torpedo, bot) <= 250 && getTrueDistance(torpedo, bot) > 100){
+            if (relativeHeading < 0){
+                if (relativeHeading < 0){
+                    if (relativeHeading > -1*saveAngle){
+                        return true;
+                    }
+                } else {
+                    if (relativeHeading < saveAngle){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }

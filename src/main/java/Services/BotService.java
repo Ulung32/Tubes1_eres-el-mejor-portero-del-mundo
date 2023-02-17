@@ -6,6 +6,10 @@ import Models.*;
 import java.util.*;
 import java.util.stream.*;
 
+import javax.sound.sampled.SourceDataLine;
+
+import com.ctc.wstx.shaded.msv_core.util.Util;
+
 public class BotService {
     private GameObject bot;
     private PlayerAction playerAction;
@@ -34,10 +38,12 @@ public class BotService {
     public void setPlayerAction(PlayerAction playerAction) {
         this.playerAction = playerAction;
     }
-
+    
     public void computeNextPlayerAction(PlayerAction playerAction) {
+        String botOutput = "";
         playerAction.action = PlayerActions.FORWARD;
         playerAction.heading = new Random().nextInt(360);
+        
 
         if (!gameState.getGameObjects().isEmpty()) {
             var foodList = gameState.getGameObjects()
@@ -63,44 +69,73 @@ public class BotService {
                     .stream().filter(item -> item.getGameObjectType() == ObjectTypes.GASCLOUD || item.getGameObjectType() == ObjectTypes.WORMHOLE)
                     .sorted(Comparator.comparing(item -> UtilityFunctions.getTrueDistance(bot, item)))
                     .collect(Collectors.toList());
+            var torpedoList = gameState.getGameObjects()
+                    .stream().filter(item -> item.getGameObjectType() == ObjectTypes.TORPEDOSALVO)
+                    .sorted(Comparator.comparing(item -> UtilityFunctions.getTrueDistance(bot, item)))
+                    .collect(Collectors.toList());
             int avoidEnemy, avoidObstacle;
             // var objectsToAvoid = Stream.concat(biggerPlayer, obstacleList)
             //         .sorted(Comparator.comparing(item -> UtilityFunctions.getTrueDistance(bot, item)))
             //         .collect(Collectors.toList());
-
+            int tempHeading = 0;
             if (UtilityFunctions.nearEdge(bot, gameState)) {
-                String botOutput = "Going to center";
+                botOutput = "Going to center";
                 int centerHeading = UtilityFunctions.getHeadingToCenterPoint(bot, gameState);
                 int enemiesNear = UtilityFunctions.countEnemyNear(bot, obstacleList, UtilityFunctions.distanceFromEdge(bot, gameState));
                 int obstaclesNear = UtilityFunctions.countObstacleNear(bot, obstacleList, UtilityFunctions.distanceFromEdge(bot, gameState));
                 playerAction.action = PlayerActions.FORWARD;
                 playerAction.heading = centerHeading;
                 if (enemiesNear > 0) {
-                    botOutput = "Running";
                     avoidEnemy = UtilityFunctions.findResultant(bot, biggerPlayer, enemiesNear);
                     int finalHeading;
-                    if (obstaclesNear > 0) {
-                        avoidObstacle = UtilityFunctions.findResultant(bot, obstacleList, obstaclesNear);
-                        finalHeading = ((avoidEnemy + avoidObstacle) / 2) % 360;
-                    } else {
-                        finalHeading = avoidEnemy;
+                    // if (obstaclesNear > 0) {
+                    //     botOutput = "avoid edge, enemies, gascloud";
+                    //     avoidObstacle = UtilityFunctions.findResultant(bot, obstacleList, obstaclesNear);
+                    //     finalHeading = ((avoidEnemy + avoidObstacle) / 2) % 360;
+                    // } else {
+                    //     botOutput = "avoid edge, enemies";
+                    //     finalHeading = avoidEnemy;
+                    // }
+                    // finalHeading = ((finalHeading + centerHeading) / 2) % 360;
+                    
+                    // uji coba
+                    finalHeading = ((avoidEnemy + centerHeading) / 2) % 360;
+                    if (obstaclesNear >0){
+                        finalHeading = UtilityFunctions.avoidGasCloud(bot, obstacleList.get(0), finalHeading);
                     }
-                    finalHeading = ((finalHeading + centerHeading) / 2) % 360;
+
                     playerAction.heading = finalHeading;
                 } else if (obstaclesNear > 0) {
-                    botOutput = "Avoiding obstacle";
-                    avoidObstacle = UtilityFunctions.findResultant(bot, obstacleList, obstaclesNear);
-                    playerAction.heading = ((avoidObstacle + centerHeading) / 2) % 360;
-                }
-                else if(bot.getTorpedoSalvoCount() > 0 && bot.getSize() > 100){
+                    botOutput = "Avoiding gasCloud";
+                    // avoidObstacle = UtilityFunctions.findResultant(bot, obstacleList, obstaclesNear);
+                    // playerAction.heading = ((avoidObstacle + centerHeading) / 2) % 360;
+                    // if(foods.size()>0 && UtilityFunctions.getTrueDistance(bot, foods.get(0)) < UtilityFunctions.getTrueDistance(bot, obstacleList.get(0)) ){
+                    //     playerAction.heading = getHeadingBetween(foods.get(0));
+                    //     botOutput = "eating than avoid gas";
+                    // }
+                    // uji coba
+                    int foodHeading = bot.getCurrentHeading();
+                    if(foods.size()>0){
+                        if (gameState.getWorld().getCurrentTick() %2 == 0){
+                            foodHeading = getHeadingBetween(foods.get(0));
+                            tempHeading = foodHeading;
+                        } else {
+                            foodHeading = bot.getCurrentHeading();
+                            tempHeading = foodHeading;
+                        }
+                        botOutput = "eating than avoid gas";
+                    }
+                    playerAction.heading = UtilityFunctions.avoidGasCloud(bot, obstacleList.get(0), foodHeading); 
+                } else if(bot.getTorpedoSalvoCount() > 0 && bot.getSize() > 100){
                     if (biggerPlayer.size() > 0) {
                         int heading = getHeadingBetween(biggerPlayer.get(0));
                         if(heading > centerHeading-60 && heading <centerHeading+60){
                             playerAction.action = PlayerActions.FIRETORPEDOES;
                             playerAction.heading = heading;
-                            botOutput = "Firing torpedoes and going to center";
+                            botOutput = "ke enemy dekat center dan firing torpedo";
                         }
                         else{
+                            botOutput = "avoid Edge";
                             playerAction.heading = centerHeading;
                         }
                         
@@ -109,32 +144,37 @@ public class BotService {
                         if(heading > centerHeading-60 && heading <centerHeading+60){
                             playerAction.action = PlayerActions.FIRETORPEDOES;
                             playerAction.heading = heading;
-                            botOutput = "Firing torpedoes and going to center";
+                            botOutput = "ke enemy dekat center dan firing torpedo";
                         }
                         else{
+                            botOutput = "avoid Edge";
                             playerAction.heading = centerHeading;
                         }
                     }
                 }
-                System.out.println(botOutput);
+                // System.out.println(botOutput);
             } else if (bot.getTorpedoSalvoCount() > 0 && bot.getSize() > 100) {
-                String botOutput = "Firing torpedoes";
                 playerAction.action = PlayerActions.FIRETORPEDOES;
                 if (biggerPlayer.size() > 0) {
+                    botOutput = "firing torpedo ke bigger";
                     playerAction.heading = getHeadingBetween(biggerPlayer.get(0));
                 } else if (smallerPlayerList.size() > 0) {
+                    botOutput = "firing torpedo ke smaller";
                     playerAction.heading = getHeadingBetween(smallerPlayerList.get(0));
                 }
-                System.out.println(botOutput);
+                // System.out.println(botOutput);
             } else {
                 GameObject target = null;
-                String botOutput = "Eating";
+                botOutput = "Eating";
                 playerAction.action = PlayerActions.FORWARD;
                 if (foods.size() != 0) {
                     target = foods.get(0);
-                    playerAction.heading = getHeadingBetween(target);
-                    if (foods.get(0).getGameObjectType() == ObjectTypes.PLAYER) {
-                        playerAction.action = PlayerActions.FIRETORPEDOES;
+                    if (gameState.getWorld().getCurrentTick() % 2 == 0){
+                        tempHeading = getHeadingBetween(target);
+                        playerAction.heading = getHeadingBetween(target);
+                    } else {
+                        tempHeading = bot.getCurrentHeading();
+                        playerAction.heading = bot.getCurrentHeading();
                     }
                 }
                 int obstaclesNear, enemiesNear;
@@ -146,13 +186,17 @@ public class BotService {
                     enemiesNear = UtilityFunctions.countEnemyNear(bot, biggerPlayer, UtilityFunctions.getDistance(bot, target));
                 }
                 if (enemiesNear > 0) {
-                    botOutput = "Running";
                     avoidEnemy = UtilityFunctions.findResultant(bot, biggerPlayer, enemiesNear);
                     int finalHeading;
                     if (obstaclesNear > 0) {
-                        avoidObstacle = UtilityFunctions.findResultant(bot, obstacleList, obstaclesNear);
-                        finalHeading = ((avoidEnemy + avoidObstacle) / 2) % 360;
+                        botOutput = "avoid enemy dan gasCloud";
+                        // avoidObstacle = UtilityFunctions.findResultant(bot, obstacleList, obstaclesNear);
+                        // finalHeading = ((avoidEnemy + avoidObstacle) / 2) % 360;
+                        
+                        // Uji Coba
+                        finalHeading = UtilityFunctions.avoidGasCloud(bot, obstacleList.get(0), avoidEnemy);
                     } else {
+                        botOutput = "avoid enemy";
                         finalHeading = avoidEnemy;
                     }
                     playerAction.heading = finalHeading;
@@ -164,18 +208,55 @@ public class BotService {
                     //     playerAction.heading = getHeadingBetween(biggerPlayer.get(0));
                     // }
                 } else if (obstaclesNear > 0) {
-                    botOutput = "Avoiding obstacle";
-                    avoidObstacle = UtilityFunctions.findResultant(bot, obstacleList, obstaclesNear);
-                    playerAction.heading = avoidObstacle;
-                    playerAction.action = PlayerActions.FORWARD;
+                    botOutput = "Avoiding gasCloud";
+                    // avoidObstacle = UtilityFunctions.findResultant(bot, obstacleList, obstaclesNear);
+                    // playerAction.heading = avoidObstacle;
+                    // playerAction.action = PlayerActions.FORWARD;
+
+                    // Uji Coba
+                    int foodHeading = new Random().nextInt(360);
+                    if (foods.size() != 0) {
+                        target = foods.get(0);
+                        if (gameState.getWorld().getCurrentTick() % 2 ==0){
+                            foodHeading = getHeadingBetween(target);
+                        } else {
+                            foodHeading = bot.getCurrentHeading();
+                        }
+                        tempHeading = foodHeading;
+                    }
+                    playerAction.heading = UtilityFunctions.avoidGasCloud(bot, obstacleList.get(0), foodHeading);
                 }
+                String aktifga = "ga aktif";
+                if (torpedoList.size()>0){
+                    if (UtilityFunctions.activateShield(bot, torpedoList.get(0)) && bot.getSize()>50){
+                        playerAction.action = PlayerActions.ACTIVATESHIELD;
+                        aktifga = "aktif";
+                    }
+                }
+
+
+                // if (torpedoList.size()>0){
+                //     if (UtilityFunctions.activateAfterBurner(bot, torpedoList.get(0)) && bot.getSize()>100){
+                //         playerAction.action = PlayerActions.STARTAFTERBURNER;
+                //         useTele = true;
+                //     }
+                // }
+
+                // if (useTele == true && bot.getSize() <= 100){
+                //     playerAction.action = PlayerActions.STOPAFTERBURNER;
+                //     useTele = false;
+                // }
+
+
+
+
                 // else {
                 //     obstaclesNear = UtilityFunctions.countObstacleNear(bot, obstacleList, 75);
                 //     enemiesNear = UtilityFunctions.countEnemyNear(bot, biggerPlayer, 100);
                 // }
                 
                 // int headingPadding = Math.abs(toDegrees(Math.asin((biggerPlayer.get(0).getSize() + bot.getSize()) / getDistanceBetween(bot, biggerPlayer.get(0))))) + 5;
-                System.out.println(botOutput);
+                // System.out.println(botOutput);
                 // if (smallerPlayer.size() > 0 && bot.getTeleporterCount() > 0 && !useTele){
                 //     playerAction.heading = UtilityFunctions.getHeadingBetween(bot, smallerPlayer.get(smallerPlayer.size()-1));
                 //     playerAction.action = PlayerActions.FIRETELEPORT;
@@ -201,8 +282,29 @@ public class BotService {
                     // else
                 // }
                 // if (gasList.size() >0){
-                //     this.playerAction.heading = UtilityFunctions.avoidGasCloud(bot, gasList.get(0));
-                // }
+                    //     this.playerAction.heading = UtilityFunctions.avoidGasCloud(bot, gasList.get(0));
+                    // }
+                System.out.println("Game Tick : " + gameState.getWorld().getCurrentTick());
+                if (obstacleList.size()>0){
+                    System.out.println("Jarak gas cloud terdekat :" + UtilityFunctions.getTrueDistance(bot, obstacleList.get(0)));
+                }
+                if (biggerPlayer.size()>0){
+                    System.out.println("Jarak enemy terdekat :" + UtilityFunctions.getTrueDistance(bot, biggerPlayer.get(0)));
+                }
+                if (foods.size()>0){
+                    System.out.println("Jarak Makanan terdekat :" + UtilityFunctions.getTrueDistance(bot, foods.get(0)) + ", " + foods.get(0));
+                }
+                if (foods.size()>1){
+                    System.out.println("Makanan kedua terdekat :"+ UtilityFunctions.getTrueDistance(bot, foods.get(1)));
+                }
+                System.out.println("Heading : " + botOutput + " " + aktifga);
+                System.out.println("tempHeading : " + tempHeading);
+                System.out.println("current Heading :" + bot.getCurrentHeading());
+                System.out.println("Size :" + bot.getSize());
+                System.out.println("Jarak ke edge :" + UtilityFunctions.distanceFromEdge(bot, gameState) + 100);
+                // System.out.println("jarak dari tengah : " + UtilityFunctions.distanceFromCenterPoint(bot, gameState));
+                // System.out.println("radius dunia : " + gameState.getWorld().getRadius());
+                System.out.println("\n");
             }
 
         //     if (UtilityFunctions.nearEdge(bot, gameState)) {
@@ -258,10 +360,9 @@ public class BotService {
         //     }
         }
 
-        
-        
 
         this.playerAction = playerAction;
+        
     }
 
     public GameState getGameState() {
