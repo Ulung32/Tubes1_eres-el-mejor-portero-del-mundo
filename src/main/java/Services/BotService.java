@@ -278,14 +278,6 @@ public class BotService {
                     }
                 }
 
-                String aktifga = "ga aktif";
-                if (torpedoList.size()>0){
-                    if (UtilityFunctions.activateShield(bot, torpedoList.get(0)) && bot.getSize()>50){
-                        playerAction.action = PlayerActions.ACTIVATESHIELD;
-                        aktifga = "aktif";
-                    }
-                }
-
                 System.out.println("Game Tick : " + gameState.getWorld().getCurrentTick());
                 if (obstacleList.size()>0){
                     System.out.println("Jarak gas cloud terdekat :" + UtilityFunctions.getTrueDistance(bot, obstacleList.get(0)));
@@ -299,13 +291,20 @@ public class BotService {
                 if (foods.size()>1){
                     System.out.println("Makanan kedua terdekat :"+ UtilityFunctions.getTrueDistance(bot, foods.get(1)));
                 }
-                System.out.println("Heading : " + botOutput + " " + aktifga);
-                System.out.println("tempHeading : " + tempHeading);
-                System.out.println("current Heading :" + bot.getCurrentHeading());
-                System.out.println("Size :" + bot.getSize());
-                System.out.println("Jarak ke edge :" + UtilityFunctions.distanceFromEdge(bot, gameState) + 100);
-                System.out.println("\n");
             }
+            String aktifga = "ga aktif";
+            if (torpedoList.size()>0){
+                if (UtilityFunctions.activateShield(bot, torpedoList.get(0)) && bot.getSize()>50){
+                    playerAction.action = PlayerActions.ACTIVATESHIELD;
+                    aktifga = "aktif";
+                }
+            }
+            System.out.println("Heading : " + botOutput + " " + aktifga);
+            System.out.println("tempHeading : " + tempHeading);
+            System.out.println("current Heading :" + bot.getCurrentHeading());
+            System.out.println("Size :" + bot.getSize());
+            System.out.println("Jarak ke edge :" + UtilityFunctions.distanceFromEdge(bot, gameState) + 100);
+            System.out.println("\n");
         }
         this.playerAction = playerAction;
         
