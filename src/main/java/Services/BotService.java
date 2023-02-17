@@ -77,7 +77,7 @@ public class BotService {
             // var objectsToAvoid = Stream.concat(biggerPlayer, obstacleList)
             //         .sorted(Comparator.comparing(item -> UtilityFunctions.getTrueDistance(bot, item)))
             //         .collect(Collectors.toList());
-            int tempHeading = 0;
+            int tempHeading = playerAction.heading;
             if (UtilityFunctions.nearEdge(bot, gameState)) {
                 botOutput = "Going to center";
                 int centerHeading = UtilityFunctions.getHeadingToCenterPoint(bot, gameState);
@@ -118,10 +118,10 @@ public class BotService {
                     if(foods.size()>0){
                         if (gameState.getWorld().getCurrentTick() %2 == 0){
                             foodHeading = getHeadingBetween(foods.get(0));
-                            tempHeading = foodHeading;
+                            // tempHeading = foodHeading;
                         } else {
                             foodHeading = bot.getCurrentHeading();
-                            tempHeading = foodHeading;
+                            // tempHeading = foodHeading;
                         }
                         botOutput = "eating than avoid gas";
                     }
@@ -165,16 +165,16 @@ public class BotService {
                 // System.out.println(botOutput);
             } else {
                 GameObject target = null;
-                botOutput = "Eating";
                 playerAction.action = PlayerActions.FORWARD;
                 if (foods.size() != 0) {
+                    botOutput = "Eating";
                     target = foods.get(0);
                     if (gameState.getWorld().getCurrentTick() % 2 == 0){
-                        tempHeading = getHeadingBetween(target);
+                        // tempHeading = getHeadingBetween(target);
                         playerAction.heading = getHeadingBetween(target);
                     } else {
-                        tempHeading = bot.getCurrentHeading();
-                        playerAction.heading = bot.getCurrentHeading();
+                        // tempHeading = bot.getCurrentHeading();
+                        playerAction.heading = bot.currentHeading;
                     }
                 }
                 int obstaclesNear, enemiesNear;
@@ -222,7 +222,7 @@ public class BotService {
                         } else {
                             foodHeading = bot.getCurrentHeading();
                         }
-                        tempHeading = foodHeading;
+                        // tempHeading = foodHeading;
                     }
                     playerAction.heading = UtilityFunctions.avoidGasCloud(bot, obstacleList.get(0), foodHeading);
                 }
@@ -299,9 +299,10 @@ public class BotService {
                 }
                 System.out.println("Heading : " + botOutput + " " + aktifga);
                 System.out.println("tempHeading : " + tempHeading);
-                System.out.println("current Heading :" + bot.getCurrentHeading());
+                System.out.println("current Heading 1 :" + bot.getCurrentHeading());
+                System.out.println("current Heading 2 :" + this.bot.getCurrentHeading());
                 System.out.println("Size :" + bot.getSize());
-                System.out.println("Jarak ke edge :" + UtilityFunctions.distanceFromEdge(bot, gameState) + 100);
+                System.out.println("Jarak ke edge :" + UtilityFunctions.distanceFromEdge(bot, gameState) + 100.0);
                 // System.out.println("jarak dari tengah : " + UtilityFunctions.distanceFromCenterPoint(bot, gameState));
                 // System.out.println("radius dunia : " + gameState.getWorld().getRadius());
                 System.out.println("\n");
@@ -379,11 +380,7 @@ public class BotService {
         optionalBot.ifPresent(bot -> this.bot = bot);
     }
 
-    private double getDistanceBetween(GameObject object1, GameObject object2) {
-        var triangleX = Math.abs(object1.getPosition().x - object2.getPosition().x);
-        var triangleY = Math.abs(object1.getPosition().y - object2.getPosition().y);
-        return Math.sqrt(triangleX * triangleX + triangleY * triangleY);
-    }
+
 
     private int getHeadingBetween(GameObject otherObject) {
         var direction = toDegrees(Math.atan2(otherObject.getPosition().y - bot.getPosition().y,
