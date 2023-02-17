@@ -44,20 +44,16 @@ public class BotService {
 
         if (!gameState.getGameObjects().isEmpty()) {
             var foodList = gameState.getGameObjects()
-                .stream().filter(item -> item.getGameObjectType() == ObjectTypes.FOOD || item.getGameObjectType() == ObjectTypes.SUPERFOOD);
-                // .sorted(Comparator.comparing(item -> UtilityFunctions.getTrueDistance(bot, item)))
-                // .collect(Collectors.toList());
+                    .stream().filter(item -> item.getGameObjectType() == ObjectTypes.FOOD || item.getGameObjectType() == ObjectTypes.SUPERFOOD);
             var smallerPlayer = gameState.getPlayerGameObjects()
                     .stream().filter(item -> item.getSize() < bot.getSize());
-                    // .sorted(Comparator.comparing(item -> UtilityFunctions.getTrueDistance(bot, item)))
-                    // .collect(Collectors.toList());
             var smallerPlayerList = gameState.getPlayerGameObjects()
                     .stream().filter(item -> item.getSize() < bot.getSize())
                     .sorted(Comparator.comparing(item -> UtilityFunctions.getTrueDistance(bot, item)))
                     .collect(Collectors.toList());
             var foods = Stream.concat(foodList, smallerPlayer)
-                .sorted(Comparator.comparing(item -> UtilityFunctions.getTrueDistance(bot, item)))
-                .collect(Collectors.toList());
+                    .sorted(Comparator.comparing(item -> UtilityFunctions.getTrueDistance(bot, item)))
+                    .collect(Collectors.toList());
             var biggerPlayer = gameState.getPlayerGameObjects()
                     .stream().filter(item -> (item.getSize() >= bot.getSize() && UtilityFunctions.getDistance(bot, item) != 0))
                     .sorted(Comparator.comparing(item -> UtilityFunctions.getTrueDistance(bot, item)))
@@ -75,9 +71,6 @@ public class BotService {
                     .sorted(Comparator.comparing(item -> UtilityFunctions.getTrueDistance(bot, item)))
                     .collect(Collectors.toList());
             int avoidEnemy;
-            // var objectsToAvoid = Stream.concat(biggerPlayer, obstacleList)
-            //         .sorted(Comparator.comparing(item -> UtilityFunctions.getTrueDistance(bot, item)))
-            //         .collect(Collectors.toList());
             int tempHeading = 0;
             if (UtilityFunctions.nearEdge(bot, gameState)) {
                 botOutput = "Going to center";
@@ -89,32 +82,13 @@ public class BotService {
                 if (enemiesNear > 0) {
                     avoidEnemy = UtilityFunctions.findResultant(bot, biggerPlayer, enemiesNear);
                     int finalHeading;
-                    // if (obstaclesNear > 0) {
-                    //     botOutput = "avoid edge, enemies, gascloud";
-                    //     avoidObstacle = UtilityFunctions.findResultant(bot, obstacleList, obstaclesNear);
-                    //     finalHeading = ((avoidEnemy + avoidObstacle) / 2) % 360;
-                    // } else {
-                    //     botOutput = "avoid edge, enemies";
-                    //     finalHeading = avoidEnemy;
-                    // }
-                    // finalHeading = ((finalHeading + centerHeading) / 2) % 360;
-                    
-                    // uji coba
                     finalHeading = ((avoidEnemy + centerHeading) / 2) % 360;
                     if (obstaclesNear > 0) {
                         finalHeading = UtilityFunctions.avoidGasCloud(bot, obstacleList.get(0), finalHeading);
                     }
-
                     playerAction.heading = finalHeading;
                 } else if (obstaclesNear > 0) {
                     botOutput = "Avoiding gasCloud";
-                    // avoidObstacle = UtilityFunctions.findResultant(bot, obstacleList, obstaclesNear);
-                    // playerAction.heading = ((avoidObstacle + centerHeading) / 2) % 360;
-                    // if(foods.size()>0 && UtilityFunctions.getTrueDistance(bot, foods.get(0)) < UtilityFunctions.getTrueDistance(bot, obstacleList.get(0)) ){
-                    //     playerAction.heading = getHeadingBetween(foods.get(0));
-                    //     botOutput = "eating than avoid gas";
-                    // }
-                    // uji coba
                     int foodHeading = bot.getCurrentHeading();
                     if(foods.size() > 0){
                         if (gameState.getWorld().getCurrentTick() % 2 == 0){
@@ -168,14 +142,14 @@ public class BotService {
                 botOutput = "Eating";
                 playerAction.action = PlayerActions.FORWARD;
                 if (foods.size() != 0) {
-                    target = foods.get(0);
-                    if (gameState.getWorld().getCurrentTick() % 2 == 0){
-                        tempHeading = getHeadingBetween(target);
-                        playerAction.heading = getHeadingBetween(target);
-                    } else {
-                        tempHeading = bot.getCurrentHeading();
-                        playerAction.heading = bot.getCurrentHeading();
-                    }
+                    target = foods.get(UtilityFunctions.getIdealFoodIdx(bot, foods));
+                    // if (gameState.getWorld().getCurrentTick() % 2 == 0){
+                    //     tempHeading = getHeadingBetween(target);
+                    //     playerAction.heading = getHeadingBetween(target);
+                    // } else {
+                    //     tempHeading = bot.getCurrentHeading();
+                    //     playerAction.heading = bot.getCurrentHeading();
+                    // }
                 }
                 int obstaclesNear, enemiesNear;
                 if (target == null) {
